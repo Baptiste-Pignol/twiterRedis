@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-ressource.js"></script>
+
+    <script src="app.js"></script>
+    <script src="controllers.js"></script>
+    <script src="services.js"></script>
+    <title>TwitterRedis</title>
+</head>
+<body ng-app="twitterApp">
+    <h2>current user</h2>
+    <div ng-controller='UserCtrl'>
+        <div>Pseudo: {{user.pseudo}}</div>
+        <div>Name: {{user.name}}</div>
+        <div>Surname: {{user.surname}}</div>
+    </div>
+    <h2>create tweet</h2>
+    <div ng-controller='FormTweetController'>
+        <form ng-submit="sendTweet()">
+            <div>New tweet : <input ng-model="tweet.message" /></div>
+            <input type="submit" value="send">
+        </form>
+    </div>
+    <h2>list tweets</h2>
+    <div ng-controller='TweetListCtrl'>
+        <div ng-repeat="tweet in tweets">
+            {{tweet.message}}
+        </div>
+    </div>
+    <h2>List follower</h2>
+    <div ng-controller='FollowerListCtrl'>
+        <div ng-repeat="user in users">
+            <div>Pseudo: {{user.pseudo}}</div>
+        </div>
+    </div>
+    <h2>List followed</h2>
+    <div ng-controller='FollowedListCtrl'>
+        <div ng-repeat="user in users">
+            <div>Pseudo: {{user.pseudo}}</div>
+        </div>
+    </div>
+    <h2>search user</h2>
+    <div ng-controller='SearchUserCtrl'>
+        <form ng-submit="searchUser()">
+            <div>User : <input ng-model="user.pseudo" /></div>
+            <input type="submit" value="Search">
+        </form>
+        <div id="resultSearch">
+            <div>Pseudo: {{user.pseudo}}</div>
+            <div>Name: {{user.name}}</div>
+            <div>Surname: {{user.surname}}</div>
+            <div><input type="button" value="Follow" ng-click="follow()"></div>
+        </div>
+    </div>
+</body>
+</html>
