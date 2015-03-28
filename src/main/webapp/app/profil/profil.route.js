@@ -11,10 +11,10 @@
 
     function config($routeProvider) {
         $routeProvider.
-            when('/myTweet', {
-                templateUrl: 'tweet-list/tweet-list.html',
-                controller: 'TweetListCtrl',
-                controllerAs: 'tweetList'
+            when('/profil', {
+                templateUrl: 'app/profil/profil.html',
+                controller: 'ProfilCtrl',
+                controllerAs: 'profil'
             });
     }
 })();

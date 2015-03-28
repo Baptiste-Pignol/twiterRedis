@@ -20,7 +20,11 @@ import java.util.Map;
 public class TweetServiceImpl implements TweetService {
     private Bd bd = Bd.getBd("192.168.56.101", 6379);
 
-    @Override
+    /**
+     * get tweets
+     * @param userId
+     * @return return all tweets of user
+     */
     public List<Tweet> getTweets(String userId) {
         List<Tweet> list = new ArrayList<Tweet>();
         List<String> idTweets = null;
@@ -40,7 +44,11 @@ public class TweetServiceImpl implements TweetService {
         return list;
     }
 
-    @Override
+    /**
+     * get tweet
+     * @param tweetId
+     * @return tweet
+     */
     public Tweet getTweet(String tweetId) {
         Tweet tweet = null;
         Jedis jedis = null;
@@ -54,7 +62,12 @@ public class TweetServiceImpl implements TweetService {
         return tweet;
     }
 
-    @Override
+    /**
+     * create a new tweet
+     * @param tweet
+     * @param userUid
+     * @return
+     */
     public Tweet createTweet(Tweet tweet, String userUid) {
         Tweet newTweet = tweet;
         Jedis jedis = null;

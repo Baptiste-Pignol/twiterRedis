@@ -26,6 +26,12 @@ public class ConnectController {
     @Resource
     ConnectService connectService;
 
+    /**
+     * connect a user to the website
+     * @param connectInfo contains connection info of the user (password, pseudo)
+     * @param request the http request
+     * @param httpServletResponse the http response
+     */
     @RequestMapping(value="/connect", method=RequestMethod.POST)
     public @ResponseBody
     void connect(@RequestBody ConnectInfo connectInfo, HttpServletRequest request, HttpServletResponse httpServletResponse) {

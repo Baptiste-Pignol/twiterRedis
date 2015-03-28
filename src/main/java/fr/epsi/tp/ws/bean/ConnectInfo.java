@@ -3,6 +3,10 @@ package fr.epsi.tp.ws.bean;
 /**
  * Created by Baptiste on 18/03/2015.
  */
+
+/**
+ * bean witch contain connect information (password and pseudo)
+ */
 public class ConnectInfo {
     private String pseudo, password;
 

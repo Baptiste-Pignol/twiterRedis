@@ -12,7 +12,7 @@
     function config($routeProvider) {
         $routeProvider.
             when('/connection', {
-                templateUrl: 'connection/connection.html',
+                templateUrl: 'app/connection/connection.html',
                 controller: 'ConnectionCtrl',
                 controllerAs: 'connection'
             });

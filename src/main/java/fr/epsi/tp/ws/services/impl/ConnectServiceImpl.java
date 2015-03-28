@@ -12,7 +12,12 @@ import redis.clients.jedis.JedisPoolConfig;
 public class ConnectServiceImpl implements ConnectService{
     private Bd bd = Bd.getBd("192.168.56.101", 6379);
 
-    @Override
+    /**
+     * check the login information
+     * @param pseudo
+     * @param password
+     * @return true if login information are ok
+     */
     public boolean checkLogin(String pseudo, String password) {
         boolean checkOk = false;
         String uid = getUid(pseudo);
@@ -31,7 +36,11 @@ public class ConnectServiceImpl implements ConnectService{
         return checkOk;
     }
 
-    @Override
+    /**
+     * get user uid
+     * @param pseudo
+     * @return uid
+     */
     public String getUid(String pseudo)  {
         String uid = null;
         Jedis jedis = null;

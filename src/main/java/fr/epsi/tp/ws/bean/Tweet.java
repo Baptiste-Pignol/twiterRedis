@@ -5,6 +5,10 @@ import java.rmi.server.UID;
 /**
  * Created by Baptiste on 17/03/2015.
  */
+
+/**
+ * bean witch represent a tweet
+ */
 public class Tweet {
     private String message, id;
 

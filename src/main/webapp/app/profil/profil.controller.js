@@ -2,10 +2,6 @@
  * Created by Baptiste on 28/03/2015.
  */
 
-/**
- * Created by Baptiste on 27/03/2015.
- */
-
 (function () {
 
     'use strict';

@@ -19,7 +19,11 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     private Bd bd = Bd.getBd("192.168.56.101", 6379);
 
-    @Override
+    /**
+     * get user uid
+     * @param pseudo user pseudo
+     * @return uid of user
+     */
     public String getUid(String pseudo) {
         String uid = "";
         User user = null;
@@ -36,7 +40,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
+    /**
+     * get user
+     * @param uid
+     * @return user
+     */
     public User getUser(String uid) {
         User user = null;
         Jedis jedis = null;
@@ -66,7 +74,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
+    /**
+     * get user
+     * @param pseudo
+     * @return user
+     */
     public User getUserWithPseudo(String pseudo) {
         User user = null;
         String uid = getUid(pseudo);
@@ -74,7 +86,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
+    /**
+     * create new user
+     * @param user
+     * @return true if the user has been created
+     */
     public boolean createUser(User user) {
         Jedis jedis = null;
         boolean res = false;
@@ -95,21 +111,33 @@ public class UserServiceImpl implements UserService {
         return res;
     }
 
-    @Override
+    /**
+     * get list of follower of the user
+     * @param uid
+     * @return a list of user who follow the user
+     */
     public List<User> getFollowers(String uid) {
         List<User> list = new ArrayList<User>();
        // todo
         return list;
     }
 
-    @Override
+    /**
+     * get list of followed of the user
+     * @param uid
+     * @return a list of user who are followed by the user
+     */
     public List<User> getFollowed(String uid) {
         List<User> list = new ArrayList<User>();
         // todo
         return list;
     }
 
-    @Override
+    /**
+     * add a new follower
+     * @param uidFollower uid of the user follower
+     * @param uidFollowed uid of the user to follow
+     */
     public void addFollowed(String uidFollower, String uidFollowed) {
         Jedis jedis = null;
         try {

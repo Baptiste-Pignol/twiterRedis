@@ -22,6 +22,13 @@ public class UserController {
     @Resource
     UserService userService;
 
+    /**
+     * get a user
+     * @param pseudo the user pseudo
+     * @param request http request
+     * @param response http response
+     * @return a user
+     */
     @RequestMapping(value="/users/{pseudo}", method= RequestMethod.GET)
     public @ResponseBody
     User getUser(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
@@ -33,6 +40,12 @@ public class UserController {
         return userService.getUserWithPseudo(pseudo);
     }
 
+    /**
+     * get current user
+     * @param request http request
+     * @param response http response
+     * @return the current user
+     */
     @RequestMapping(value="/users", method= RequestMethod.GET)
     public @ResponseBody
     User getUser(HttpServletRequest request, HttpServletResponse response) {
@@ -44,7 +57,12 @@ public class UserController {
         return userService.getUser(uid);
     }
 
-
+    /**
+     * create a user
+     * @param user the new user
+     * @param request http request
+     * @param httpServletResponse http response
+     */
     @RequestMapping(value="/users", method= RequestMethod.POST)
     public @ResponseBody
     void createUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse httpServletResponse) {
@@ -57,6 +75,12 @@ public class UserController {
         }
     }
 
+    /**
+     * get follower
+     * @param request http request
+     * @param response http response
+     * @return list of user who follow the current user
+     */
     @RequestMapping(value="users/followers", method= RequestMethod.GET)
     public @ResponseBody
     List<User> getFollowers(HttpServletRequest request, HttpServletResponse response) {
@@ -73,6 +97,12 @@ public class UserController {
         return list;
     }
 
+    /**
+     *  get followed
+     * @param request http request
+     * @param response http response
+     * @return list of user who are followed by the current user
+     */
     @RequestMapping(value="users/followed", method= RequestMethod.GET)
     public @ResponseBody
     List<User> getFollowed(HttpServletRequest request, HttpServletResponse response) {
@@ -89,6 +119,13 @@ public class UserController {
         return list;
     }
 
+    /**
+     * get followers
+     * @param pseudo user pseudo
+     * @param request http request
+     * @param response http response
+     * @return list of user who follow the user
+     */
     @RequestMapping(value="users/followers/{pseudo}", method= RequestMethod.GET)
     public @ResponseBody
     List<User> getFollowers(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
@@ -105,6 +142,13 @@ public class UserController {
         return list;
     }
 
+    /**
+     * get followed
+    * @param pseudo user pseudo
+    * @param request http request
+    * @param response http response
+    * @return list of user who are followed by the user
+    */
     @RequestMapping(value="users/followed/{pseudo}", method= RequestMethod.GET)
     public @ResponseBody
     List<User> getFollowed(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
@@ -121,6 +165,12 @@ public class UserController {
         return list;
     }
 
+    /**
+     * add followed
+     * @param pseudo pseudo of the user to follow
+     * @param request http request
+     * @param response http response
+     */
     @RequestMapping(value="users/followed", method= RequestMethod.POST)
     public @ResponseBody
     void setFollowed(@RequestBody String  pseudo, HttpServletRequest request, HttpServletResponse response) {

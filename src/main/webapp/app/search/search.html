@@ -1,0 +1,11 @@
+<div>
+    <form ng-submit="search.search()">
+        <div>Search : <input ng-model="search.user.pseudo" /></div>
+        <input type="submit" value="search">
+    </form>
+</div>
+<div>
+    <div>Pseudo: {{search.user.pseudo}}</div>
+    <div>Name: {{search.user.name}}</div>
+    <div>Surname: {{search.user.surname}}</div>
+</div>

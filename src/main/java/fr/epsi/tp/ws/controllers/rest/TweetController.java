@@ -22,6 +22,12 @@ public class TweetController {
     @Resource
     TweetService tweetService;
 
+    /**
+     * get all tweets of current user
+     * @param request http request
+     * @param response http response
+     * @return list of current user tweets
+     */
     @RequestMapping(value="/tweets", method= RequestMethod.GET)
     public @ResponseBody
     List<Tweet> getTweets(HttpServletRequest request, HttpServletResponse response) {
@@ -39,6 +45,13 @@ public class TweetController {
         return list;
     }
 
+    /**
+     * get all tweets of a user
+     * @param id user uid
+     * @param request http request
+     * @param response http response
+     * @return list of user tweets
+     */
     @RequestMapping(value="/user/{userId}/tweets", method= RequestMethod.GET)
     public @ResponseBody
     List<Tweet> getTweets(@PathVariable("userId") String id, HttpServletRequest request, HttpServletResponse response) {
@@ -54,6 +67,13 @@ public class TweetController {
         return list;
     }
 
+    /**
+     * get a tweet
+     * @param id tweet uid
+     * @param request http request
+     * @param response http response
+     * @return a tweet
+     */
     @RequestMapping(value="/tweets/{tweetId}", method= RequestMethod.GET)
     public @ResponseBody
     Tweet getTweet(@PathVariable("tweetId") String id, HttpServletRequest request, HttpServletResponse response) {
@@ -65,6 +85,13 @@ public class TweetController {
         return tweetService.getTweet(id);
     }
 
+    /**
+     * create a new tweet
+     * @param tweet the new tweet
+     * @param request http request
+     * @param response http response
+     * @return
+     */
     @RequestMapping(value="/tweets", method = RequestMethod.POST)
     public @ResponseBody
     Tweet createTweet(@RequestBody Tweet tweet, HttpServletRequest request, HttpServletResponse response) {

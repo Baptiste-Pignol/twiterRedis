@@ -11,10 +11,10 @@
 
     function config($routeProvider) {
         $routeProvider.
-            when('/inscription', {
-                templateUrl: 'inscription/inscription.html',
-                controller: 'InscriptionCtrl',
-                controllerAs: 'inscription'
+            when('/myTweet', {
+                templateUrl: 'app/tweet-list/tweet-list.html',
+                controller: 'TweetListCtrl',
+                controllerAs: 'tweetList'
             });
     }
 })();

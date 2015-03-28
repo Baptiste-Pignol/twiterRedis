@@ -11,10 +11,10 @@
 
     function config($routeProvider) {
         $routeProvider.
-            when('/profil', {
-                templateUrl: 'profil/profil.html',
-                controller: 'ProfilCtrl',
-                controllerAs: 'profil'
+            when('/search', {
+                templateUrl: 'app/search/search.html',
+                controller: 'SearchCtrl',
+                controllerAs: 'search'
             });
     }
 })();
