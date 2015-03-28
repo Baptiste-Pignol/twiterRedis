@@ -10,10 +10,11 @@
         .module('twitterApp')
         .controller('ProfilCtrl', profilCtrl);
 
-    profilCtrl.$inject = ['Users'];
+    profilCtrl.$inject = ['Users', 'TweeterAppConnexion'];
 
-    function profilCtrl(Users) {
+    function profilCtrl(Users, TweeterAppConnexion) {
         var me = this;
+        TweeterAppConnexion.verifConnection();
         me.user = Users.get();
     }
 })();

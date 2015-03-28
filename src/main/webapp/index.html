@@ -8,6 +8,7 @@
     <script src="lib/angular/angular-route.min.js"></script>
 
     <script src="app.js"></script>
+    <script src="app.controller.js"></script>
 
     <script src="services/tweeterAppConnexion.js"></script>
     <script src="services/tweet.js"></script>
@@ -33,13 +34,13 @@
     <script src="app/search/search.controller.js"></script>
     <script src="app/search/search.route.js"></script>
 </head>
-<body ng-app="twitterApp">
+<body ng-app="twitterApp" ng-controller="AppController as app">
 
-<a href="#/connection">connection</a> |
-<a href="#/inscription">inscription</a> |
-<a href="#/myTweet">my tweet</a> |
-<a href="#/profil">profil</a> |
-<a href="#/search">search</a>
+<a href="#/connection" ng-if="!app.connected">connection</a> <span ng-if="!app.connected">|</span>
+<a href="#/inscription" ng-if="!app.connected">inscription</a>
+<a href="#/myTweet" ng-if="app.connected">my tweet</a> <span ng-if="app.connected">|</span>
+<a href="#/profil" ng-if="app.connected">profil</a> <span ng-if="app.connected">|</span>
+<a href="#/search" ng-if="app.connected">search</a>
 <br />
 
 <div class="view-animate-container">

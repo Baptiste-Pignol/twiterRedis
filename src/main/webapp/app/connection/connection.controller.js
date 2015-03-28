@@ -10,10 +10,11 @@
         .module('twitterApp')
         .controller('ConnectionCtrl', connectionCtrl);
 
-    connectionCtrl.$inject = ['$location', 'TweeterAppConnexion'];
+    connectionCtrl.$inject = ['$rootScope', '$location', 'TweeterAppConnexion'];
 
-    function connectionCtrl($location, TweeterAppConnexion) {
+    function connectionCtrl($rootScope, $location, TweeterAppConnexion) {
         var me = this;
+
         me.user = {
             pseudo: "",
             password: ""
@@ -22,6 +23,7 @@
         me.connection = function () {
             TweeterAppConnexion.connection(me.user)
                 .success(function () {
+                    $rootScope.$emit("connected");
                     $location.url("/myTweet");
                 });
         }

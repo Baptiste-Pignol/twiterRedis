@@ -58,7 +58,23 @@ public class ConnectController {
             logger.info("connection fail, bad connection info");
             httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
+    }
 
+    /**
+     * is connected
+     * @param request http request
+     * @param response http session
+     */
+    @RequestMapping(value="/connect", method=RequestMethod.GET)
+    public @ResponseBody
+    void isConnected(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("isConnected");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid != null) {
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
     }
 
 }

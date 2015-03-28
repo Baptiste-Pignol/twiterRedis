@@ -10,10 +10,11 @@
         .module('twitterApp')
         .controller('SearchCtrl', searchCtrl);
 
-    searchCtrl.$inject = ['Users'];
+    searchCtrl.$inject = ['Users', 'TweeterAppConnexion'];
 
-    function searchCtrl(Users) {
+    function searchCtrl(Users, TweeterAppConnexion) {
         var me = this;
+        TweeterAppConnexion.verifConnection();
         me.user = {};
 
         me.search = function() {

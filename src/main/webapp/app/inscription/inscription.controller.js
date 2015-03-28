@@ -23,6 +23,7 @@
 
         me.inscription = function () {
             Users.save(me.user);
+            $location.url("/connection");
         }
     }
 })();

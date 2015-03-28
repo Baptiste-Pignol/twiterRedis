@@ -10,10 +10,11 @@
         .module('twitterApp')
         .controller('TweetListCtrl', tweetListCtrl);
 
-    tweetListCtrl.$inject = ['Tweets', '$location'];
+    tweetListCtrl.$inject = ['Tweets', 'TweeterAppConnexion'];
 
-    function tweetListCtrl(Tweets) {
+    function tweetListCtrl(Tweets, TweeterAppConnexion) {
         var me = this;
+        TweeterAppConnexion.verifConnection();
         me.tweets = Tweets.query();
     }
 })();
