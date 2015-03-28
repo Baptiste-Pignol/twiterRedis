@@ -3,8 +3,44 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>test</title>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-ressource.js"></script>
+    <script src="lib/angular/angular-route.min.js"></script>
+
+    <script src="app.js"></script>
+
+    <script src="services/tweeterAppConnexion.js"></script>
+    <script src="services/tweet.js"></script>
+    <script src="services/user.js"></script>
+    <script src="services/userFollowed.js"></script>
+    <script src="services/userFollower.js"></script>
+    <script src="services/userTweet.js"></script>
+
+    <script src="tweet-list/formTweetController.js"></script>
+
+    <script src="tweet-list/tweet-list.controller.js"></script>
+    <script src="tweet-list/tweet-list.route.js"></script>
+
+    <script src="connection/connection.controller.js"></script>
+    <script src="connection/connection.route.js"></script>
+
+    <script src="inscription/inscription.controller.js"></script>
+    <script src="inscription/inscription.route.js"></script>
+
+    <script src="profil/profil.controller.js"></script>
+    <script src="profil/profil.route.js"></script>
 </head>
-<body>
- VICTORY!!!
+<body ng-app="twitterApp">
+
+<a href="#/connection">connection</a> |
+<a href="#/inscription">inscription</a> |
+<a href="#/myTweet">my tweet</a> |
+<a href="#/profil">profil</a>
+<br />
+
+<div class="view-animate-container">
+    <div ng-view class="view-animate"></div>
+</div>
+
 </body>
 </html>

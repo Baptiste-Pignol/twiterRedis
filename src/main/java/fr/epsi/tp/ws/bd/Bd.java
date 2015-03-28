@@ -30,9 +30,14 @@ public class Bd {
     }
 
     public Jedis getJedis() {
-        if (this.jedis == null) {
+        /*if (this.jedis == null) {
             this.jedis = this.pool.getResource();
         }
-        return this.jedis;
+        return this.jedis;*/
+        return this.pool.getResource();
+    }
+
+    public void closeJedis(Jedis jedis) {
+        jedis.close();
     }
 }

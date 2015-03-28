@@ -23,9 +23,14 @@ public class UserServiceImpl implements UserService {
     public String getUid(String pseudo) {
         String uid = "";
         User user = null;
-        Jedis jedis =  bd.getJedis();
-        if (pseudo != null) {
-            uid = jedis.hget("users", pseudo);
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            if (pseudo != null) {
+                uid = jedis.hget("users", pseudo);
+            }
+        } finally {
+            bd.closeJedis(jedis);
         }
         return uid;
 
@@ -34,24 +39,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(String uid) {
         User user = null;
-        Jedis jedis =  bd.getJedis();
-        if (uid != null) {
-            List<String> userInfo = jedis.hmget(
-                    "user:"+uid,
-                    "pseudo",
-                    "name",
-                    "surname",
-                    "uid"
-            );
-            if (userInfo != null && (!userInfo.isEmpty()) && userInfo.size() >= 4) {
-                user = new User(
-                        userInfo.get(0),
-                        userInfo.get(1),
-                        userInfo.get(2),
-                        "",
-                        userInfo.get(3)
+        Jedis jedis = null;
+        try {
+            jedis =  bd.getJedis();
+            if (uid != null) {
+                List<String> userInfo = jedis.hmget(
+                        "user:"+uid,
+                        "pseudo",
+                        "name",
+                        "surname",
+                        "uid"
                 );
+                if (userInfo != null && (!userInfo.isEmpty()) && userInfo.size() >= 4) {
+                    user = new User(
+                            userInfo.get(0),
+                            userInfo.get(1),
+                            userInfo.get(2),
+                            "",
+                            userInfo.get(3)
+                    );
+                }
             }
+        } finally {
+            bd.closeJedis(jedis);
         }
         return user;
     }
@@ -66,8 +76,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean createUser(User user) {
+        Jedis jedis = null;
+        boolean res = false;
         try {
-            Jedis jedis =  bd.getJedis();
+            jedis =  bd.getJedis();
             Map<String, String> m = new HashMap<String, String>();
             m.put("pseudo", user.getPseudo());
             m.put("name", user.getName());
@@ -76,10 +88,11 @@ public class UserServiceImpl implements UserService {
             m.put("uid", user.getUid());
             jedis.hmset("user:" + user.getUid(), m);
             jedis.hset("users", user.getPseudo(), user.getUid());
-            return true;
-        } catch (JedisException ex) {
-            return false;
+            res = true;
+        } finally {
+            bd.closeJedis(jedis);
         }
+        return res;
     }
 
     @Override
@@ -98,9 +111,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addFollowed(String uidFollower, String uidFollowed) {
-        Jedis jedis =  bd.getJedis();
-        jedis.lpush("user:"+uidFollowed+"followers", uidFollower);
-        jedis.lpush("user:"+uidFollower+"followed", uidFollowed);
+        Jedis jedis = null;
+        try {
+            jedis =  bd.getJedis();
+            jedis.lpush("user:"+uidFollowed+"followers", uidFollower);
+            jedis.lpush("user:"+uidFollower+"followed", uidFollowed);
+        } finally {
+            bd.closeJedis(jedis);
+        }
     }
 
 }

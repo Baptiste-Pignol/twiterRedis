@@ -16,12 +16,17 @@ public class ConnectServiceImpl implements ConnectService{
     public boolean checkLogin(String pseudo, String password) {
         boolean checkOk = false;
         String uid = getUid(pseudo);
-        if (uid != null) {
-            Jedis jedis = bd.getJedis();
-            String dbPassowrd = jedis.hget("user:"+uid, "password");
-            if (dbPassowrd != null && dbPassowrd.equals(password)) {
-                checkOk = true;
+        Jedis jedis = null;
+        try {
+            if (uid != null) {
+                jedis = bd.getJedis();
+                String dbPassowrd = jedis.hget("user:" + uid, "password");
+                if (dbPassowrd != null && dbPassowrd.equals(password)) {
+                    checkOk = true;
+                }
             }
+        } finally {
+            bd.closeJedis(jedis);
         }
         return checkOk;
     }
@@ -29,8 +34,13 @@ public class ConnectServiceImpl implements ConnectService{
     @Override
     public String getUid(String pseudo)  {
         String uid = null;
-        Jedis jedis = bd.getJedis();
-        uid = jedis.hget("users", pseudo);
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            uid = jedis.hget("users", pseudo);
+        } finally {
+            bd.closeJedis(jedis);
+        }
         return uid;
     }
 

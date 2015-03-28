@@ -1,0 +1,14 @@
+<h2>create tweet</h2>
+<div ng-controller='FormTweetController as form'>
+    <form ng-submit="form.sendTweet()">
+        <div>New tweet : <input ng-model="form.tweet.message" /></div>
+        <input type="submit" value="send">
+    </form>
+</div>
+
+<h2>list tweets</h2>
+<div>
+    <div ng-repeat="tweet in tweetList.tweets">
+        {{tweet.message}}
+    </div>
+</div>
