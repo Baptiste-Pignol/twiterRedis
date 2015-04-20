@@ -1,87 +1,70 @@
 package fr.epsi.tp.ws.services.impl;
 
-import fr.epsi.tp.ws.bd.Bd;
 import fr.epsi.tp.ws.bean.Tweet;
-import fr.epsi.tp.ws.bean.User;
+import fr.epsi.tp.ws.dao.TweetDao;
+import fr.epsi.tp.ws.dao.impl.TweetDaoImpl;
 import fr.epsi.tp.ws.services.TweetService;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.exceptions.JedisException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Baptiste on 17/03/2015.
  */
 public class TweetServiceImpl implements TweetService {
-    private Bd bd = Bd.getBd("192.168.56.101", 6379);
-
     /**
      * get tweets
-     * @param userId
-     * @return return all tweets of user
+     * @param userId user unique id
+     * @param start start index
+     * @param end end index
+     * @return return all tweets of user behind start and end index
+     */
+    public List<Tweet> getTweets(String userId, int start, int end) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getTweetsByUserId(userId, start, end);
+    }
+
+    /**
+     * get 100 first tweets
+     * @param userId user unique id
+     * @return 100 first user tweet
      */
     public List<Tweet> getTweets(String userId) {
-        List<Tweet> list = new ArrayList<Tweet>();
-        List<String> idTweets = null;
-        Jedis jedis = null;
-        try {
-            jedis = bd.getJedis();
-            idTweets = jedis.lrange("user:"+userId+"tweets", 0, 100);
-        } finally {
-            bd.closeJedis(jedis);
-        }
-        if (idTweets != null) {
-            for (String id : idTweets) {
-                Tweet t = getTweet(id);
-                list.add(t);
-            }
-        }
-        return list;
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getTweetsByUserId(userId, 0, 100);
+    }
+
+    /**
+     * get 100 first tweets
+     * @param pseudo user pseudo
+     * @return 100 first user tweet
+     */
+    public List<Tweet> getTweetsWithPseudo(String pseudo) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getTweetsByUserPseudo(pseudo, 0, 100);
     }
 
     /**
      * get tweet
-     * @param tweetId
+     * @param tweetId tweet unique id
      * @return tweet
      */
     public Tweet getTweet(String tweetId) {
-        Tweet tweet = null;
-        Jedis jedis = null;
-        try {
-            jedis = bd.getJedis();
-            String message = jedis.hget("tweet:"+tweetId, "message");
-            tweet = new Tweet(tweetId, message);
-        } finally {
-            bd.closeJedis(jedis);
-        }
-        return tweet;
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getTweetById(tweetId);
     }
 
     /**
      * create a new tweet
-     * @param tweet
-     * @param userUid
-     * @return
+     * @param tweet tweet to create
+     * @param userUid unique user id
      */
-    public Tweet createTweet(Tweet tweet, String userUid) {
-        Tweet newTweet = tweet;
-        Jedis jedis = null;
-        try {
-            jedis = bd.getJedis();
-            Map<String, String> m = new HashMap<String, String>();
-            m.put("message", tweet.getMessage());
-            jedis.hmset("tweet:" + tweet.getId(), m);
-            jedis.lpush("user:" + userUid + "tweets", tweet.getId());
-        } catch (JedisException ex) {
-            return null;
-        } finally {
-            bd.closeJedis(jedis);
-        }
-        return tweet;
+    public void createTweet(Tweet tweet, String userUid) {
+        tweet.setSenderId(userUid);
+        Calendar calendar = Calendar.getInstance();
+        String timestamp = String.valueOf(calendar.getTime().getTime());
+        tweet.setTimestamp(timestamp);
+        TweetDao tweetDao = new TweetDaoImpl();
+        tweetDao.addTweetByUserId(userUid, tweet);
     }
 }

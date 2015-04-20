@@ -1,0 +1,15 @@
+<md-toolbar layout="row" layout-align="start center" class="noise">
+    <div layout="row" layout-align="center center">
+        <img class="tabBar-face" src="http://www.mathcurve.com/fractals/arbre/arbre3d.gif" />
+        <h2 hide-sm>Baptiste</h2>
+    </div>
+    <div layout="row" layout-align="center center" flex>
+        <md-tabs md-selected="tabBar.selectedIndex" class="tabBar-tabs">
+            <md-tab ng-repeat="tab in tabBar.tabs"
+                    ng-disabled="tab.disabled"
+                    label="{{tab.title}}"
+                    ui-sref="{{tab.state}}">
+            </md-tab>
+        </md-tabs>
+    </div>
+</md-toolbar>

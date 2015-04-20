@@ -1,51 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="twitterApp">
 <head lang="en">
     <meta charset="UTF-8">
-    <title>test</title>
+    <title> TwitterLike </title>
+
+    <link rel="stylesheet" type="text/css" href="lib/angular-material/angular-material.css">
+
     <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular/angular-ressource.js"></script>
-    <script src="lib/angular/angular-route.min.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/angular-animate/angular-animate.js"></script>
+    <script src="lib/angular-messages/angular-messages.js"></script>
+    <script src="lib/angular-aria/angular-aria.js"></script>
+    <script src="lib/angular-material/angular-material.js"></script>
 
-    <script src="app.js"></script>
-    <script src="app.controller.js"></script>
 
-    <script src="services/tweeterAppConnexion.js"></script>
-    <script src="services/tweet.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/app.route.js"></script>
+
+    <script src="services/connexion.js"></script>
     <script src="services/user.js"></script>
-    <script src="services/userFollowed.js"></script>
-    <script src="services/userFollower.js"></script>
+    <script src="services/tweet.js"></script>
     <script src="services/userTweet.js"></script>
 
-    <script src="app/tweet-list/formTweetController.js"></script>
+     <script src="app/login-page/connection/connection.controller.js"></script>
+     <script src="app/login-page/inscription/inscription.controller.js"></script>
+     <script src="app/login-page/presentation/presentation.controller.js"></script>
 
-    <script src="app/tweet-list/tweet-list.controller.js"></script>
-    <script src="app/tweet-list/tweet-list.route.js"></script>
+     <script src="app/login-page/login-page.controller.js"></script>
+     <script src="app/login-page/login-page.route.js"></script>
 
-    <script src="app/connection/connection.controller.js"></script>
-    <script src="app/connection/connection.route.js"></script>
+    <script src="app/main-page/tabBar/tabBar.controller.js"></script>
+    <script src="app/main-page/profil/profil.controller.js"></script>
+    <script src="app/main-page/suggestion/suggestion.controller.js"></script>
+    <script src="app/main-page/trend/trend.controller.js"></script>
+    <script src="app/main-page/main-content/home/home.controller.js"></script>
+    <script src="app/main-page/main-content/tweet/tweet.controller.js"></script>
+    <script src="app/main-page/main-content/favorite/favorite.controller.js"></script>
+    <script src="app/main-page/main-content/follower/follower.controller.js"></script>
+    <script src="app/main-page/main-content/following/following.controller.js"></script>
+    <script src="app/main-page/main-content/search/search.controller.js"></script>
+    <script src="app/main-page/main-page.controller.js"></script>
+    <script src="app/main-page/main-page.route.js"></script>
 
-    <script src="app/inscription/inscription.controller.js"></script>
-    <script src="app/inscription/inscription.route.js"></script>
-
-    <script src="app/profil/profil.controller.js"></script>
-    <script src="app/profil/profil.route.js"></script>
-
-    <script src="app/search/search.controller.js"></script>
-    <script src="app/search/search.route.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="app/login-page/login-page.css">-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body ng-app="twitterApp" ng-controller="AppController as app">
-
-<a href="#/connection" ng-if="!app.connected">connection</a> <span ng-if="!app.connected">|</span>
-<a href="#/inscription" ng-if="!app.connected">inscription</a>
-<a href="#/myTweet" ng-if="app.connected">my tweet</a> <span ng-if="app.connected">|</span>
-<a href="#/profil" ng-if="app.connected">profil</a> <span ng-if="app.connected">|</span>
-<a href="#/search" ng-if="app.connected">search</a>
-<br />
-
-<div class="view-animate-container">
-    <div ng-view class="view-animate"></div>
-</div>
-
+<body>
+    <div ui-view></div>
 </body>
 </html>

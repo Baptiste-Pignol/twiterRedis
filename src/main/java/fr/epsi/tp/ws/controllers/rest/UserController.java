@@ -60,17 +60,16 @@ public class UserController {
     /**
      * create a user
      * @param user the new user
-     * @param request http request
      * @param httpServletResponse http response
      */
     @RequestMapping(value="/users", method= RequestMethod.POST)
     public @ResponseBody
-    void createUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    void createUser(@RequestBody User user, HttpServletResponse httpServletResponse) {
         logger.info("createUser");
-        boolean res = userService.createUser(user);
-        if (res) {
+        try {
+            userService.createUser(user);
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-        } else {
+        } catch (Exception e) {
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
@@ -111,7 +110,7 @@ public class UserController {
         if (uid == null || uid.equals("")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        List<User> list = userService.getFollowed(uid);
+        List<User> list = userService.getFollowing(uid);
         if (list == null || list.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
@@ -122,13 +121,12 @@ public class UserController {
     /**
      * get followers
      * @param pseudo user pseudo
-     * @param request http request
      * @param response http response
      * @return list of user who follow the user
      */
     @RequestMapping(value="users/followers/{pseudo}", method= RequestMethod.GET)
     public @ResponseBody
-    List<User> getFollowers(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
+    List<User> getFollowers(@PathVariable("pseudo") String pseudo, HttpServletResponse response) {
         logger.info("getFollowers");
         String uid = userService.getUid(pseudo);
         if (uid == null || uid.equals("")) {
@@ -145,19 +143,18 @@ public class UserController {
     /**
      * get followed
     * @param pseudo user pseudo
-    * @param request http request
     * @param response http response
     * @return list of user who are followed by the user
     */
     @RequestMapping(value="users/followed/{pseudo}", method= RequestMethod.GET)
     public @ResponseBody
-    List<User> getFollowed(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
+    List<User> getFollowed(@PathVariable("pseudo") String pseudo, HttpServletResponse response) {
         logger.info("getFollowed");
         String uid = userService.getUid(pseudo);
         if (uid == null || uid.equals("")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        List<User> list = userService.getFollowed(uid);
+        List<User> list = userService.getFollowing(uid);
         if (list == null || list.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
@@ -169,14 +166,13 @@ public class UserController {
      * add followed
      * @param pseudo pseudo of the user to follow
      * @param request http request
-     * @param response http response
      */
     @RequestMapping(value="users/followed", method= RequestMethod.POST)
     public @ResponseBody
-    void setFollowed(@RequestBody String  pseudo, HttpServletRequest request, HttpServletResponse response) {
+    void setFollowed(@RequestBody String  pseudo, HttpServletRequest request) {
         String uidFollowed = userService.getUid(pseudo);
         String uidFollower = (String) request.getSession(true).getAttribute("uid");
-        userService.addFollowed(uidFollower, uidFollowed);
+        userService.addFollowing(uidFollower, uidFollowed);
 
     }
 }

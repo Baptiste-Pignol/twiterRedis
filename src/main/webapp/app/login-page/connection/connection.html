@@ -1,0 +1,22 @@
+<div class="connection-form-container">
+    <form name="userForm" ng-submit="connection.connection()">
+        <div layout="column" layout-align="center center">
+            <md-card layout layout="column" class="connection-form-card coloredCard noise">
+                <md-card-content layout="column">
+                    <div layout-align="center center" layout="column">
+                        <md-input-container>
+                            <label class="label">Pseudo</label>
+                            <input ng-model="connection.user.pseudo" required>
+                        </md-input-container>
+                        <md-input-container class="label">
+                            <label>Password</label>
+                            <input type="password" required ng-model="connection.user.password" >
+                        </md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="connection.submit()">Connection</md-button>
+                    </div>
+                    <a href="" class="connection-forgotPsw">Forgot password?</a>
+                </md-card-content>
+            </md-card>
+        </div>
+    </form>
+</div>

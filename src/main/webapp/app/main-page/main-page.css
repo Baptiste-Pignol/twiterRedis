@@ -1,0 +1,119 @@
+body {
+    background-color: #433B4F;
+}
+
+.view-background {
+    background-color: #433B4F;
+}
+
+.fillWidth {
+    width: 100%;
+}
+
+.noise {
+    background-image: url("/image/noise3.png");
+}
+
+.coloredCard {
+    background-color: #3f51b5;
+    color: #BEA472;
+    overflow: hidden;
+    margin-top: 10px;
+    border-radius: 6px !important;
+}
+
+.tweetCard {
+    /*background-color: #E8993A;*/
+    background-color: #BEA472;
+    /*background-color: #7D3AE8;*/
+    color: #433B4F;
+    border-radius: 20px !important;
+    width: 100%;
+    max-width: 725px;
+}
+
+.tweet-message {
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.tweet-info {
+    text-align: end;
+}
+
+.tweet-face {
+    min-width: 80px;
+    width: 80px;
+    height: 80px;
+    border-radius: 0px 20px 0px 20px;
+    margin-right: 20px;
+}
+
+
+.divTweetCard {
+    width: 100%;
+}
+
+.profil-face {
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 150px;
+    height: 150px;
+    margin-top: 25px;
+    margin-right: 10px;
+}
+
+.suggestion-face {
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 55px;
+    height: 55px;
+    margin-top: 10px;
+    margin-bot: 10px;
+    margin-right: 15px;
+}
+
+.card-title {
+    color: #D6D6D6;
+    opacity: 70;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.side-view {
+    min-width: 150px;
+}
+
+.tabBar-face {
+    width: 55px;
+    height: 55px;
+    border-radius: 70px;
+    margin-right: 20px;
+}
+
+/** toolbar **/
+md-toolbar {
+    height: 100px;
+}
+
+/** tabs **/
+.tabBar-view {
+    min-width: 850px;
+}
+
+md-tabs.md-default-theme md-tab.active {
+    color: #ffffff;
+}
+
+md-tabs.md-default-theme md-tab {
+    color: #BEA472;
+}
+
+md-tabs.md-default-theme .md-paginator md-icon {
+    color: white;
+}
+
+.tabBar-tabs {
+    overflow:  visible;
+    width: 800px !important
+}

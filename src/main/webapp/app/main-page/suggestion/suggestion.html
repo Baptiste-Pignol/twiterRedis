@@ -1,0 +1,12 @@
+<md-card layout="column" class="coloredCard noise">
+    <h3 class="card-title">Suggestion</h3>
+    <md-card-content>
+        <div layout="row" ng-repeat="user in suggestion.users" layout-align="start center">
+            <img class="suggestion-face" ng-src="{{user.image}}" />
+                <b flex>{{user.pseudo}}</b>
+                <md-button class="md-fab md-mini md-primary" aria-label="Follow">
+                    <md-icon md-svg-src="image/personAdd_24.svg"></md-icon>
+                </md-button>
+        </div>
+    </md-card-content>
+</md-card>

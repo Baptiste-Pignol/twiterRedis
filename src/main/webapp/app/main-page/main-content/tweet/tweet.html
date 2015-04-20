@@ -1,0 +1,22 @@
+<div layout="column" layout-align="start center">
+    <md-card>
+        <md-card-content class="coloredCard noise">
+            <div layout-align="center center" layout="column">
+                <md-input-container>
+                    <label class="label">Tweet</label>
+                    <input ng-model="tweetCtrl.newTweet.message" required>
+                </md-input-container>
+                <md-button class="md-raised md-primary" ng-click="tweetCtrl.sendTweet()">Tweet</md-button>
+            </div>
+        </md-card-content>
+    </md-card>
+    <md-card class="tweetCard noise" ng-repeat="tweet in tweetCtrl.tweets">
+        <md-card-content>
+            <div layout="row">
+                <img class="tweet-face" ng-src="{{tweet.senderImage}}" />
+                <p class="tweet-message">{{tweet.message}}</p>
+            </div>
+            <p class="tweet-info">{{tweet.sender}} - {{tweet.date}}</p>
+        </md-card-content>
+    </md-card>
+</div>

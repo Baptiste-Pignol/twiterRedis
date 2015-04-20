@@ -1,0 +1,51 @@
+/*body {
+    background-image: url("/image/city.jpg");
+}*/
+
+.connection-form-card {
+    height: 265px;
+    background-color: grey;
+    background-image: url("/image/noise3.png");
+}
+
+.connection-form-container {
+    margin: 10px;
+}
+
+.connection-forgotPsw {
+    margin-top: 20px;
+}
+
+.inscription-form-card {
+    /*height: 465px;*/
+    background-color: grey;
+    background-image: url("/image/noise3.png");
+}
+
+.inscription-form-card-small {
+    height: 265px;
+    background-color: grey;
+    background-image: url("/image/noise3.png");
+}
+
+.inscription-form-container {
+    margin: 10px;
+}
+
+.presentation-card {
+    height: 550px;
+    background-color: grey;
+    background-image: url("/image/noise3.png");
+}
+
+.presentation-container {
+    margin: 20px;
+}
+
+h2 {
+    color: #ffffff;
+}
+
+label {
+    color: #404040 !important;
+}

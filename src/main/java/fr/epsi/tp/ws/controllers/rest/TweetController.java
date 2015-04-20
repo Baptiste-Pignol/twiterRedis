@@ -47,20 +47,20 @@ public class TweetController {
 
     /**
      * get all tweets of a user
-     * @param id user uid
+     * @param pseudo user pseudo
      * @param request http request
      * @param response http response
      * @return list of user tweets
      */
-    @RequestMapping(value="/user/{userId}/tweets", method= RequestMethod.GET)
+    @RequestMapping(value="/user/{pseudo}/tweets", method= RequestMethod.GET)
     public @ResponseBody
-    List<Tweet> getTweets(@PathVariable("userId") String id, HttpServletRequest request, HttpServletResponse response) {
+    List<Tweet> getTweets(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
         logger.info("getTweets");
         String uid = (String) request.getSession(true).getAttribute("uid");
         if (uid == null || uid.equals("")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        List<Tweet> list = tweetService.getTweets(id);
+        List<Tweet> list = tweetService.getTweetsWithPseudo(pseudo);
         if (list != null && !list.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -90,18 +90,16 @@ public class TweetController {
      * @param tweet the new tweet
      * @param request http request
      * @param response http response
-     * @return
      */
     @RequestMapping(value="/tweets", method = RequestMethod.POST)
     public @ResponseBody
-    Tweet createTweet(@RequestBody Tweet tweet, HttpServletRequest request, HttpServletResponse response) {
+    void createTweet(@RequestBody Tweet tweet, HttpServletRequest request, HttpServletResponse response) {
         logger.info("setTweets");
         String uid = (String) request.getSession(true).getAttribute("uid");
         if (uid == null || uid.equals("")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        tweet = tweetService.createTweet(tweet, uid);
-        return tweet;
+        tweetService.createTweet(tweet, uid);
     }
 
 

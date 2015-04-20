@@ -11,29 +11,53 @@ import java.rmi.server.UID;
  * bean witch represent a user
  */
 public class User {
-    private String pseudo, name, surname, password, uid;
+    private String pseudo, fullName, email, password, uid;
 
     public User() {
         UID uid = new UID();
         this.uid = uid.toString();
     }
 
-    public User(String pseudo, String name, String surname, String password, String uid) {
+    public User(String pseudo, String fullName, String email, String password, String uid) {
         this.pseudo = pseudo;
-        this.name = name;
-        this.surname = surname;
+        this.fullName = fullName;
+        this.email = email;
         this.password = password;
         this.uid = uid;
     }
 
-    public User(String pseudo, String name, String surname, String password) {
+    public User(String pseudo, String fullName, String email, String password) {
         this.pseudo = pseudo;
-        this.name = name;
-        this.surname = surname;
+        this.fullName = fullName;
+        this.email = email;
         this.password = password;
 
         UID uid = new UID();
         this.uid = uid.toString();
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -44,37 +68,11 @@ public class User {
         this.password = password;
     }
 
-
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public String getUid() {
+        return uid;
     }
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getPseudo() {
-
-        return pseudo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getUid() {
-        return uid;
     }
 }

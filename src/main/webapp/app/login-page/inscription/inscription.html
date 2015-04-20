@@ -1,0 +1,37 @@
+<div class="inscription-form-container">
+    <form name="userForm" ng-submit="inscription.inscription();">
+        <div layout="column" layout-align="center center">
+            <md-card layout layout="column" ng-class="inscription.getClass();" class="coloredCard noise">
+                <md-card-content layout="column">
+                    <span class="card-title"> New to TwitterRedis? </span>
+                    <div layout-align="center center" layout="column">
+                        <md-input-container>
+                            <label class="label">pseudo</label>
+                            <input ng-blur="inscription.onBlur();" ng-focus="inscription.onFocus();" ng-model="inscription.user.pseudo" required>
+                        </md-input-container>
+                        <md-input-container ng-show="inscription.isFocus">
+                            <label class="label">full name</label>
+                            <input ng-blur="inscription.onBlur();" ng-model="inscription.user.fullName" required>
+                        </md-input-container>
+                        <md-input-container ng-show="inscription.isFocus">
+                            <label class="label">email</label>
+                            <input ng-blur="inscription.onBlur();" type="email" ng-model="inscription.user.email" required>
+                        </md-input-container>
+                        <md-input-container>
+                            <label class="label">password</label>
+                            <input ng-blur="inscription.onBlur();" type="password" ng-focus="inscription.onFocus();" required ng-model="inscription.user.password" >
+                        </md-input-container>
+                        <!--<md-input-container ng-show="inscription.isFocus">-->
+                            <!--&lt;!&ndash;<input type='file' id='fileinput' multiple='multiple' onchange='drop()'>&ndash;&gt;-->
+                            <!--<md-button>-->
+                                <!--Select user image-->
+                                <!--<input type="file" />-->
+                            <!--</md-button>-->
+                        <!--</md-input-container>-->
+                        <md-button class="md-raised md-primary" ng-click="inscription.inscription();">Sign up</md-button>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
+    </form>
+</div>

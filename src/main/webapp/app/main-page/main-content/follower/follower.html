@@ -1,0 +1,10 @@
+<div layout="column" layout-align="start center">
+    <md-card class="tweetCard noise" ng-repeat="user in followCtrl.users">
+        <md-card-content>
+            <div layout="row">
+                <img class="tweet-face" ng-src="{{user.image}}" />
+                <p class="tweet-message">{{user.pseudo}}</p>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

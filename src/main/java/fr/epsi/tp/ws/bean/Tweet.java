@@ -10,15 +10,26 @@ import java.rmi.server.UID;
  * bean witch represent a tweet
  */
 public class Tweet {
-    private String message, id;
+    private String message, id, senderId, timestamp;
 
     public Tweet() {
         UID uid = new UID();
         this.id = uid.toString();
     }
 
-    public Tweet(String id, String message) {
-        this.id = id; this.message = message;
+    public Tweet(String id, String message, String senderId, String timestamp) {
+        this.id = id;
+        this.message = message;
+        this.senderId = senderId;
+        this.timestamp = timestamp;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
     public String getMessage() {
@@ -35,5 +46,13 @@ public class Tweet {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
