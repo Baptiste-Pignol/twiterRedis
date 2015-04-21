@@ -67,4 +67,26 @@ public class TweetServiceImpl implements TweetService {
         TweetDao tweetDao = new TweetDaoImpl();
         tweetDao.addTweetByUserId(userUid, tweet);
     }
+
+    /**
+     * get wall tweets
+     * @param pseudo user pseudo
+     * @return list of wall tweets
+     */
+    public List<Tweet> getWallTweets(String pseudo) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getWallTweetByPseudo(pseudo, 0, 100);
+    }
+
+    /**
+     * get wall tweets
+     * @param pseudo user pseudo
+     * @param start start index
+     * @param end end index
+     * @return list of wall tweets
+     */
+    public List<Tweet> getWallTweets(String pseudo, int start, int end) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getWallTweetByPseudo(pseudo, start, end);
+    }
 }

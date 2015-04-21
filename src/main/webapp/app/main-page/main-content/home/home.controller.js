@@ -10,17 +10,29 @@
         .module('twitterApp')
         .controller('HomeCtrl', homeCtrl);
 
-    homeCtrl.$inject = ['Tweets'];
+    homeCtrl.$inject = ['$stateParams', 'Tweets', 'UserHome'];
 
-    function homeCtrl(Tweets) {
+    function homeCtrl($stateParams, Tweets, UserHome) {
         var _this =this;
-        this.tweets = Tweets.query();
+        this.currentUserPseudo = $stateParams.pseudo;
         this.newTweet = {
             message: ''
-        }
+        };
 
-        _this.sendTweet = function sendTweet() {
+        this.sendTweet = function sendTweet() {
             Tweets.save(_this.newTweet);
-        }
+        };
+
+        this.loadWallTweet = function loadWallTweet() {
+            UserHome.query({'pseudo': _this.currentUserPseudo},
+                function success(dbTweets) {
+                    _this.tweets = dbTweets;
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
+        this.loadWallTweet();
     }
 })();

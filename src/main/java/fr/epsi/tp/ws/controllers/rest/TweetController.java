@@ -102,5 +102,28 @@ public class TweetController {
         tweetService.createTweet(tweet, uid);
     }
 
+    /**
+     * get all tweets to show in user wall
+     * @param pseudo user pseudo
+     * @param request http request
+     * @param response http response
+     * @return list of tweet to show in user wall
+     */
+    @RequestMapping(value="/users/{pseudo}/wallTweets", method= RequestMethod.GET)
+    public @ResponseBody
+    List<Tweet> getWallTweets(@PathVariable("pseudo") String pseudo,HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getWallTweets");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        List<Tweet> list = tweetService.getWallTweets(pseudo);
+        if (list == null || list.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+        return list;
+    }
+
 
 }

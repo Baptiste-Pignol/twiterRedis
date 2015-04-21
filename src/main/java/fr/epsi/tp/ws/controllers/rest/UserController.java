@@ -177,6 +177,5 @@ public class UserController {
         String uidFollowing = userService.getUid(pseudo);
         String uidFollower = (String) request.getSession(true).getAttribute("uid");
         userService.addFollowing(uidFollowing, uidFollower);
-
     }
 }
