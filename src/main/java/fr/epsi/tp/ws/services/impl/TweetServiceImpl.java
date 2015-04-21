@@ -1,8 +1,11 @@
 package fr.epsi.tp.ws.services.impl;
 
 import fr.epsi.tp.ws.bean.Tweet;
+import fr.epsi.tp.ws.bean.User;
 import fr.epsi.tp.ws.dao.TweetDao;
+import fr.epsi.tp.ws.dao.UserDao;
 import fr.epsi.tp.ws.dao.impl.TweetDaoImpl;
+import fr.epsi.tp.ws.dao.impl.UserDaoImpl;
 import fr.epsi.tp.ws.services.TweetService;
 
 import java.util.Calendar;
@@ -61,6 +64,9 @@ public class TweetServiceImpl implements TweetService {
      */
     public void createTweet(Tweet tweet, String userUid) {
         tweet.setSenderId(userUid);
+        UserDao userDao = new UserDaoImpl();
+        User user = userDao.getUserById(userUid);
+        tweet.setSenderPseudo(user.getPseudo());
         Calendar calendar = Calendar.getInstance();
         String timestamp = String.valueOf(calendar.getTime().getTime());
         tweet.setTimestamp(timestamp);

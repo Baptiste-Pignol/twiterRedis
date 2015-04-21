@@ -29,7 +29,8 @@ public class TweetDaoImpl implements TweetDao {
             String message = jedis.hget("tweet:"+tweetId, "message");
             String senderId = jedis.hget("tweet:"+tweetId, "senderId");
             String timestamp = jedis.hget("tweet:"+tweetId, "timestamp");
-            tweet = new Tweet(tweetId, message, senderId, timestamp);
+            String senderPseudo =  jedis.hget("tweet:"+tweetId, "senderPseudo");
+            tweet = new Tweet(tweetId, message, senderId, timestamp, senderPseudo);
         } finally {
             bd.closeJedis(jedis);
         }
@@ -88,6 +89,7 @@ public class TweetDaoImpl implements TweetDao {
             m.put("message", tweet.getMessage());
             m.put("timestamp", tweet.getTimestamp());
             m.put("senderId", tweet.getSenderId());
+            m.put("senderPseudo", tweet.getSenderPseudo());
             m.put("id", tweet.getId());
             Transaction transaction = jedis.multi();
             transaction.hmset("tweet:" + tweet.getId(), m);

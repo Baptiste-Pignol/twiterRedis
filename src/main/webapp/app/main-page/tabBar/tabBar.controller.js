@@ -10,12 +10,26 @@
         .module('twitterApp')
         .controller('TabBarCtrl', tabBarCtrl);
 
-    tabBarCtrl.$inject = ['$rootScope', '$state', '$stateParams'];
+    tabBarCtrl.$inject = ['$rootScope', '$state', '$stateParams', 'Users'];
 
-    function tabBarCtrl($rootScope, $state, $stateParams) {
+    function tabBarCtrl($rootScope, $state, $stateParams, Users) {
         var _this = this;
         this.selectedIndex = 0;
         this.connectedUserPseudo = $rootScope.connectedUserPseudo;
+
+        this.loadConnectedUserPseudo = function loadConnectedUserPseudo() {
+            // get connected user pseudo
+            Users.get({},
+                function success(bdUser){
+                    $rootScope.connectedUserPseudo = bdUser.pseudo;
+                    _this.connectedUserPseudo = bdUser.pseudo;
+                },
+                function error(err){
+                    console.log(err);
+                }
+            );
+        };
+        this.loadConnectedUserPseudo();
 
         $rootScope.$on('$stateChangeStart', handleStateChange);
         function handleStateChange(event, toState, toParam, fromState, fromParam) {
