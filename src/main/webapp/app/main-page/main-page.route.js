@@ -7,16 +7,14 @@
         .module('twitterApp')
         .config(config);
 
-    config.$inject = ['$stateProvider'];
+    config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
-    function config($stateProvider) {
+    function config($stateProvider, $urlRouterProvider) {
         $stateProvider.state('twitter', {
             url: '/twitter',
             views: {
                 '': {
-                    templateUrl: 'app/main-page/main-page.html'/*,
-                     controller: 'MainPageCtrl',
-                     controllerAs: 'mainPage'*/
+                    templateUrl: 'app/main-page/main-page.html'
                 },
                 'profil@twitter': {
                     templateUrl: 'app/main-page/profil/profil.html',
@@ -40,32 +38,32 @@
                 }
             }
         }).state('twitter.home', {
-            url: '/home',
+            url: '/home/:pseudo',
             templateUrl: 'app/main-page/main-content/tweet/tweet.html',
             controller: 'HomeCtrl',
             controllerAs: 'tweetCtrl'
         }).state('twitter.tweet', {
-            url: '/tweet',
+            url: '/tweet/:pseudo',
             templateUrl: 'app/main-page/main-content/tweet/tweet.html',
             controller: 'TweetCtrl',
             controllerAs: 'tweetCtrl'
         }).state('twitter.follower', {
-            url: '/follower',
+            url: '/follower/:pseudo',
             templateUrl: 'app/main-page/main-content/follower/follower.html',
             controller: 'FollowerCtrl',
             controllerAs: 'followCtrl'
         }).state('twitter.following', {
-            url: '/following',
+            url: '/following/:pseudo',
             templateUrl: 'app/main-page/main-content/follower/follower.html',
             controller: 'FollowingCtrl',
             controllerAs: 'followCtrl'
         }).state('twitter.favorite', {
-            url: '/favorite',
+            url: '/favorite/:pseudo',
             templateUrl: 'app/main-page/main-content/tweet/tweet.html',
             controller: 'FavoriteCtrl',
             controllerAs: 'tweetCtrl'
         }).state('twitter.search', {
-            url: '/search',
+            url: '/search/:pseudo',
             templateUrl: 'app/main-page/main-content/search/search.html',
             controller: 'SearchCtrl',
             controllerAs: 'search'

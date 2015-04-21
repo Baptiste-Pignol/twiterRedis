@@ -14,15 +14,31 @@
 
     function tweetCtrl($rootScope, $stateParams, Tweets, UserTweet) {
         var _this =this;
-        _this.currentUserPseudo = $stateParams.pseudo || 'me';
-        if (_this.currentUserPseudo == 'me') {
-            this.tweets = Tweets.query()
-        } else {
-            this.tweets = UserTweet.query({'pseudo': _this.currentUserPseudo});
+        this.currentUserPseudo = $stateParams.pseudo;
+
+
+        this.sendTweet = function sendTweet() {
+            Tweets.save(_this.newTweet,
+                function success() {
+                    this.loadTweet();
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
         }
 
-        _this.sendTweet = function sendTweet() {
-            Tweets.save(_this.newTweet);
+        this.loadTweet = function loadTweet() {
+            UserTweet.query({'pseudo': _this.currentUserPseudo},
+                function success(dbTweets) {
+                    _this.tweets = dbTweets;
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
         }
+
+        this.loadTweet();
     }
 })();

@@ -10,9 +10,9 @@
         .module('twitterApp')
         .controller('ConnectionCtrl', connectionCtrl);
 
-    connectionCtrl.$inject = ['$state', 'AppConnexion'];
+    connectionCtrl.$inject = ['$state', 'AppConnexion', '$rootScope'];
 
-    function connectionCtrl($state, AppConnexion) {
+    function connectionCtrl($state, AppConnexion, $rootScope) {
         var _this = this;
 
         _this.user = {
@@ -23,7 +23,9 @@
         _this.connection = function connection() {
             AppConnexion.connection(_this.user)
                 .success(function () {
-                    $state.go("twitter.home");
+                    $rootScope.connectedUserPseudo = _this.user.pseudo;
+                    $rootScope.currentUserPseudo = _this.user.pseudo;
+                    $state.go("twitter.home", {pseudo: _this.user.pseudo});
                 });
         }
     }

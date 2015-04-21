@@ -52,7 +52,7 @@ public class TweetController {
      * @param response http response
      * @return list of user tweets
      */
-    @RequestMapping(value="/user/{pseudo}/tweets", method= RequestMethod.GET)
+    @RequestMapping(value="/users/{pseudo}/tweets", method= RequestMethod.GET)
     public @ResponseBody
     List<Tweet> getTweets(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
         logger.info("getTweets");
@@ -61,7 +61,7 @@ public class TweetController {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         List<Tweet> list = tweetService.getTweetsWithPseudo(pseudo);
-        if (list != null && !list.isEmpty()) {
+        if (list != null && list.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
         return list;

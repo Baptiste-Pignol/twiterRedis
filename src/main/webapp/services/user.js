@@ -10,6 +10,6 @@
     userFct.$inject = ['$resource'];
 
     function userFct($resource) {
-        return $resource('rest/users/:id');
+        return $resource('rest/users/:pseudo');
     }
 })();

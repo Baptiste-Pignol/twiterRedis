@@ -10,15 +10,22 @@
         .module('twitterApp')
         .controller('TabBarCtrl', tabBarCtrl);
 
-    tabBarCtrl.$inject = ['$rootScope', '$state'];
+    tabBarCtrl.$inject = ['$rootScope', '$state', '$stateParams'];
 
-    function tabBarCtrl($rootScope, $state) {
+    function tabBarCtrl($rootScope, $state, $stateParams) {
         var _this = this;
         this.selectedIndex = 0;
-        /*_this.user = 'me';
-        $rootScope.$on('currentUser', function(event, userPseudo) {
-            _this.user = userPseudo;
-        });*/
+        this.connectedUserPseudo = $rootScope.connectedUserPseudo;
+
+        $rootScope.$on('$stateChangeStart', handleStateChange);
+        function handleStateChange(event, toState, toParam, fromState, fromParam) {
+            var pseudo = toParam.pseudo;
+            if (pseudo) {
+                $rootScope.currentUserPseudo = pseudo;
+            }
+        }
+
+
         this.tabs = [
             {
                 title: 'home',
@@ -52,8 +59,10 @@
             }
         ];
         this.clickTab = function clickTab(tab) {
-            $state.go(tab.state);
+            $state.go(tab.state, {pseudo: $rootScope.currentUserPseudo || $rootScope.connectedUserPseudo});
             _this.selectedIndex = tab.index;
         };
+        //ui-sref='{{tab.state}}({pseudo: "{{tabBar.currentUserPseudo}}"})'
+        //{{tab.state}}({pseudo: '{{tabBar.currentUserPseudo}}'})
     }
 })();
