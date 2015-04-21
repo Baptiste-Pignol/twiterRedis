@@ -37,7 +37,11 @@ public class UserController {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         logger.info("getUser");
-        return userService.getUserWithPseudo(pseudo);
+        User user = userService.getUserWithPseudo(pseudo);
+        if (user == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return user;
     }
 
     /**
@@ -102,9 +106,9 @@ public class UserController {
      * @param response http response
      * @return list of user who are followed by the current user
      */
-    @RequestMapping(value="users/followed", method= RequestMethod.GET)
+    @RequestMapping(value="users/following", method= RequestMethod.GET)
     public @ResponseBody
-    List<User> getFollowed(HttpServletRequest request, HttpServletResponse response) {
+    List<User> getFollowing(HttpServletRequest request, HttpServletResponse response) {
         logger.info("getFollowed");
         String uid = (String) request.getSession(true).getAttribute("uid");
         if (uid == null || uid.equals("")) {
@@ -146,10 +150,10 @@ public class UserController {
     * @param response http response
     * @return list of user who are followed by the user
     */
-    @RequestMapping(value="users/followed/{pseudo}", method= RequestMethod.GET)
+    @RequestMapping(value="users/following/{pseudo}", method= RequestMethod.GET)
     public @ResponseBody
-    List<User> getFollowed(@PathVariable("pseudo") String pseudo, HttpServletResponse response) {
-        logger.info("getFollowed");
+    List<User> getFollowing(@PathVariable("pseudo") String pseudo, HttpServletResponse response) {
+        logger.info("getFollowing");
         String uid = userService.getUid(pseudo);
         if (uid == null || uid.equals("")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -167,12 +171,12 @@ public class UserController {
      * @param pseudo pseudo of the user to follow
      * @param request http request
      */
-    @RequestMapping(value="users/followed", method= RequestMethod.POST)
+    @RequestMapping(value="users/following", method= RequestMethod.POST)
     public @ResponseBody
-    void setFollowed(@RequestBody String  pseudo, HttpServletRequest request) {
-        String uidFollowed = userService.getUid(pseudo);
+    void setFollowing(@RequestBody String  pseudo, HttpServletRequest request) {
+        String uidFollowing = userService.getUid(pseudo);
         String uidFollower = (String) request.getSession(true).getAttribute("uid");
-        userService.addFollowing(uidFollower, uidFollowed);
+        userService.addFollowing(uidFollowing, uidFollower);
 
     }
 }

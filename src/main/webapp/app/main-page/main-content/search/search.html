@@ -1,20 +1,46 @@
 <div layout="column" layout-align="start center">
-    <md-card>
-        <md-card-content class="coloredCard noise">
-            <div layout-align="center center" layout="column">
-                <md-input-container>
-                    <label class="label">Search</label>
-                    <input ng-model="search.pseudo" required>
-                </md-input-container>
-                <md-button class="md-raised md-primary" ng-click="search.submit()">Search</md-button>
+    <div layout="row" layout-align="start center">
+        <md-card>
+            <md-card-content class="coloredCard noise">
+                <div layout-align="center center" layout="column">
+                    <md-input-container>
+                        <label class="label">Search</label>
+                        <input ng-model="search.pseudo" required>
+                    </md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="search.search();">Search</md-button>
+                </div>
+            </md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-content class="coloredCard noise">
+                <div layout-align="center center" layout="column">
+                    <md-input-container>
+                        <md-select ng-model="search.searchType">
+                            <md-option ng-repeat="type in search.searchTypeOptions" value="{{type.val}}">{{type.name}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+    <md-card class="tweetCard noise" ng-show="search.result != undefined">
+        <md-card-content>
+            <div layout="column" layout-align="start center">
+                <img class="tweet-face" ng-src="{{search.result.image}}" />
+                <h3>{{search.result.pseudo}}</h3>
+                <p>{{search.result.fullName}}</p>
+                <p>{{search.result.email}}</p>
+                <md-button class="md-fab md-primary" aria-label="Follow" ng-click="search.addFollowing();">
+                    <md-icon md-svg-src="image/personAdd_24.svg"></md-icon>
+                </md-button>
             </div>
         </md-card-content>
     </md-card>
-    <md-card class="tweetCard noise" ng-repeat="user in search.result">
+    <md-card class="tweetCard noise" ng-show="search.result == undefined && search.error">
         <md-card-content>
-            <div layout="row">
-                <img class="tweet-face" ng-src="{{user.image}}" />
-                <p class="tweet-message">{{user.pseudo}}</p>
+            <div layout="column" layout-align="start center">
+                <img class="tweet-face" ng-src="{{search.result.image}}" />
+                <h3>{{search.error.statusText}}</h3>
             </div>
         </md-card-content>
     </md-card>

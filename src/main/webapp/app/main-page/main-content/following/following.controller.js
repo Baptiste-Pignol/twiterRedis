@@ -10,55 +10,31 @@
         .module('twitterApp')
         .controller('FollowingCtrl', followingCtrl);
 
-    //followingCtrl.$inject = [''];
+    followingCtrl.$inject = ['$stateParams', 'UserFollowing'];
 
-    function followingCtrl() {
+    function followingCtrl($stateParams, UserFollowing) {
         var _this =this;
-        this.users = [
-            {
-                pseudo: "bob",
-                image: "http://lorempixel.com/148/148/"
-            },
-            {
-                pseudo: "jksjsj",
-                image: "http://lorempixel.com/143/143/"
-            },
-            {
-                pseudo: "hqddsg",
-                image: "http://lorempixel.com/145/145/"
-            },
-            {
-                pseudo: "sgjgj",
-                image: "http://lorempixel.com/147/147/"
-            },
-            {
-                pseudo: "qhfqhfqh",
-                image: "http://lorempixel.com/138/138/"
-            },
-            {
-                pseudo: "dvffddddbbd",
-                image: "http://lorempixel.com/135/135/"
-            },
-            {
-                pseudo: "nntntkkgj",
-                image: "http://lorempixel.com/146/146/"
-            },
-            {
-                pseudo: "kukukk",
-                image: "http://lorempixel.com/147/147/"
-            },
-            {
-                pseudo: "mimimim",
-                image: "http://lorempixel.com/148/148/"
-            },
-            {
-                pseudo: "bfggfgfob",
-                image: "http://lorempixel.com/149/149/"
-            },
-            {
-                pseudo: "bdfdffdob",
-                image: "http://lorempixel.com/141/141/"
-            }
-        ];
+
+        // users following
+        this.users = [];
+
+        // get current user pseudo
+        this.currentUserPseudo = $stateParams.pseudo;
+
+        // function which load following users
+        this.loadFollowing = function loadFollowing() {
+            UserFollowing.query({'pseudo': _this.currentUserPseudo},
+                function success(dbUsers) {
+                    _this.users = dbUsers;
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
+
+        // load users
+        this.loadFollowing();
+
     }
 })();

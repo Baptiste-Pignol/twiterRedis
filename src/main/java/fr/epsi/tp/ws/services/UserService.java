@@ -16,5 +16,5 @@ public interface UserService {
     public List<User> getFollowers(String userId, int start, int end);
     public List<User> getFollowing(String uid);
     public List<User> getFollowing(String userId, int start, int end);
-    public void addFollowing(String uidFollower, String uidFollowing);
+    public void addFollowing(String uidFollowing, String uidFollower);
 }

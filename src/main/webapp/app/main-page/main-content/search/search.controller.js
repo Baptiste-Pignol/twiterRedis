@@ -10,55 +10,66 @@
         .module('twitterApp')
         .controller('SearchCtrl', searchCtrl);
 
-    //searchCtrl.$inject = [''];
+    searchCtrl.$inject = ['Users', 'UserFollowing'];
 
-    function searchCtrl() {
+    function searchCtrl(Users, UserFollowing) {
         var _this =this;
-        this.result = [
+
+        // current type of research
+        this.searchType = 1;
+
+        // definition of possible type of research
+        this.searchTypeOptions = [
             {
-                pseudo: "bob",
-                image: "http://lorempixel.com/142/142/"
+                val: 1,
+                name: 'user'
             },
             {
-                pseudo: "jksjsj",
-                image: "http://lorempixel.com/149/149/"
-            },
-            {
-                pseudo: "hqddsg",
-                image: "http://lorempixel.com/145/145/"
-            },
-            {
-                pseudo: "sgjgj",
-                image: "http://lorempixel.com/143/143/"
-            },
-            {
-                pseudo: "qhfqhfqh",
-                image: "http://lorempixel.com/144/144/"
-            },
-            {
-                pseudo: "dvffddddbbd",
-                image: "http://lorempixel.com/147/147/"
-            },
-            {
-                pseudo: "nntntkkgj",
-                image: "http://lorempixel.com/146/146/"
-            },
-            {
-                pseudo: "kukukk",
-                image: "http://lorempixel.com/147/147/"
-            },
-            {
-                pseudo: "mimimim",
-                image: "http://lorempixel.com/148/148/"
-            },
-            {
-                pseudo: "bfggfgfob",
-                image: "http://lorempixel.com/149/149/"
-            },
-            {
-                pseudo: "bdfdffdob",
-                image: "http://lorempixel.com/141/141/"
+                val: 2,
+                name: 'hashtag'
             }
         ];
+
+        // function which search user by pseudo
+        this.searchUser = function searchUser(userPseudo) {
+            Users.get({pseudo: userPseudo},
+                function success(data) {
+                    _this.error = undefined;
+                    _this.result = data;
+                },
+                function error(err) {
+                    _this.result = undefined;
+                    _this.error = err;
+                }
+            );
+        };
+
+        // function which search tweet by hashtag
+        this.searchHashtag = function(hashtag) {
+            //todo implement hashtag research and add call to tweet service
+        }
+
+        this.searchVisitor = {
+            1: _this.searchUser,
+            2: _this.searchHashtag
+        };
+
+        // result of research
+        this.result = undefined;
+
+        this.search = function search() {
+            _this.searchVisitor[_this.searchType](_this.pseudo);
+        };
+
+        this.addFollowing = function addFollowing() {
+            UserFollowing.save( _this.result.pseudo,
+                function success(data) {
+                    console.log("success");
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
     }
 })();

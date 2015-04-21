@@ -99,8 +99,8 @@ public class UserServiceImpl implements UserService {
      * @param uidFollower uid of the user follower
      * @param uidFollowing uid of the user to follow
      */
-    public void addFollowing(String uidFollower, String uidFollowing) {
+    public void addFollowing(String uidFollowing, String uidFollower) {
         UserDao userDao = new UserDaoImpl();
-        userDao.addFollowingById(uidFollower, uidFollowing);
+        userDao.addFollowingById(uidFollowing, uidFollower);
     }
 }

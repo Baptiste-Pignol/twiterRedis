@@ -10,6 +10,6 @@
     userFollowerFct.$inject = ['$resource'];
 
     function userFollowerFct($resource) {
-        return $resource('rest/users/follower/:pseudo');
+        return $resource('rest/users/followers/:pseudo');
     }
 })();
