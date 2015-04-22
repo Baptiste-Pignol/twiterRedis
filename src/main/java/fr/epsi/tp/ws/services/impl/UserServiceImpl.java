@@ -53,45 +53,21 @@ public class UserServiceImpl implements UserService {
     /**
      * get list of follower of the user
      * @param userId user unique id
-     * @param start start index
-     * @param end end index
      * @return a list of user who follow the user
-     */
-    public List<User> getFollowers(String userId, int start, int end) {
-        UserDao userDao = new UserDaoImpl();
-        return userDao.getFollowerById(userId, start, end);
-    }
-
-    /**
-     * get list of 100 first follower of the user
-     * @param userId user unique id
-     * @return a list of 100 first user who follow the user
      */
     public List<User> getFollowers(String userId) {
         UserDao userDao = new UserDaoImpl();
-        return userDao.getFollowerById(userId, 0, 100);
+        return userDao.getFollowerById(userId);
     }
 
     /**
      * get list of following of the user
      * @param userId user unique id
-     * @param start start index
-     * @param end end index
      * @return a list of user who are following by the user
-     */
-    public List<User> getFollowing(String userId, int start, int end) {
-        UserDao userDao = new UserDaoImpl();
-        return userDao.getFollowingById(userId, start, end);
-    }
-
-    /**
-     * get list of 100 first following of the user
-     * @param userId user unique id
-     * @return a list of 100 first user who are following by the user
      */
     public List<User> getFollowing(String userId) {
         UserDao userDao = new UserDaoImpl();
-        return userDao.getFollowingById(userId, 0, 100);
+        return userDao.getFollowingById(userId);
     }
 
     /**

@@ -7,10 +7,7 @@ import fr.epsi.tp.ws.dao.UserDao;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Baptiste on 12/04/2015.
@@ -149,17 +146,15 @@ public class UserDaoImpl implements UserDao {
     /**
      * get followers by user id
      * @param userId unique user id
-     * @param start start index of result list
-     * @param end end index of result list
      * @return followers list of follower user
      */
-    public List<User> getFollowerById(String userId, int start, int end) {
+    public List<User> getFollowerById(String userId) {
         List<User> followers = new ArrayList<User>();
-        List<String> idFollowers = null;
+        Set<String> idFollowers = null;
         Jedis jedis = null;
         try {
             jedis = this.bd.getJedis();
-            idFollowers = jedis.lrange("user:"+userId+"/follower", start, end);
+            idFollowers = jedis.smembers("user:" + userId + "/follower");
         } finally {
             this.bd.closeJedis(jedis);
         }
@@ -177,29 +172,25 @@ public class UserDaoImpl implements UserDao {
     /**
      * get followers by user pseudo
      * @param pseudo user pseudo
-     * @param start start index of result list
-     * @param end end index of result list
      * @return followers list of follower user
      */
-    public List<User> getFollowerByPseudo(String pseudo, int start, int end) {
+    public List<User> getFollowerByPseudo(String pseudo) {
         String uid = getUserIdByPseudo(pseudo);
-        return getFollowerById(uid, start, end);
+        return getFollowerById(uid);
     }
 
     /**
      * get following by user id
-     * @param userId user unique id
-     * @param start start index of result list
-     * @param end end index of result list
+     * @param userId user unique idt
      * @return following
      */
-    public List<User> getFollowingById(String userId, int start, int end) {
+    public List<User> getFollowingById(String userId) {
         List<User> followings = new ArrayList<User>();
-        List<String> idFollowings = null;
+        Set<String> idFollowings = null;
         Jedis jedis = null;
         try {
             jedis = this.bd.getJedis();
-            idFollowings = jedis.lrange("user:"+userId+"/following", start, end);
+            idFollowings = jedis.smembers("user:" + userId + "/following");
         } finally {
             this.bd.closeJedis(jedis);
         }
@@ -217,28 +208,24 @@ public class UserDaoImpl implements UserDao {
     /**
      * get following by user pseudo
      * @param pseudo user pseudo
-     * @param start start index of result list
-     * @param end end inde of result list
      * @return following
      */
-    public List<User> getFollowingByPseudo(String pseudo, int start, int end) {
+    public List<User> getFollowingByPseudo(String pseudo) {
         String uid = getUserIdByPseudo(pseudo);
-        return getFollowingById(uid, start, end);
+        return getFollowingById(uid);
     }
 
     /**
      * get list of following id by id
      * @param userId user unique id
-     * @param start start index of result list
-     * @param end end index of result list
      * @return list of following id
      */
-    public List<String> getFollowingIdById(String userId, int start, int end) {
-        List<String> idFollowings = null;
+    public Set<String> getFollowingIdById(String userId) {
+        Set<String> idFollowings = null;
         Jedis jedis = null;
         try {
             jedis = this.bd.getJedis();
-            idFollowings = jedis.lrange("user:"+userId+"/following", start, end);
+            idFollowings = jedis.smembers("user:" + userId + "/following");
         } finally {
             this.bd.closeJedis(jedis);
         }
@@ -248,13 +235,11 @@ public class UserDaoImpl implements UserDao {
     /**
      * get list of following id by pseudo
      * @param pseudo user pseudo
-     * @param start start index of result list
-     * @param end end index of result list
      * @return list of following id
      */
-    public List<String> getFollowingIdByPseudo(String pseudo, int start, int end) {
+    public Set<String> getFollowingIdByPseudo(String pseudo) {
         String uid = getUserIdByPseudo(pseudo);
-        return getFollowingIdById(uid, start, end);
+        return getFollowingIdById(uid);
     }
 
     /**
@@ -267,8 +252,8 @@ public class UserDaoImpl implements UserDao {
         try {
             jedis =  this.bd.getJedis();
             Transaction transaction = jedis.multi();
-            transaction.lpush("user:" + followingId + "/follower", userId);
-            transaction.lpush("user:" + userId + "/following", followingId);
+            transaction.sadd("user:" + followingId + "/follower", userId);
+            transaction.sadd("user:" + userId + "/following", followingId);
             transaction.exec();
         } finally {
             this.bd.closeJedis(jedis);

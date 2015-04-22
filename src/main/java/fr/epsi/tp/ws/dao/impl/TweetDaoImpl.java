@@ -196,7 +196,7 @@ public class TweetDaoImpl implements TweetDao {
     public List<Tweet> getWallTweetById(String uid, int start, int end) {
         List<Tweet> list = new ArrayList<Tweet>();
         UserDaoImpl userDao = new UserDaoImpl();
-        List<String> following = userDao.getFollowingIdById(uid, 0, -1);
+        Set<String> following = userDao.getFollowingIdById(uid);
         Jedis jedis = null;
         try {
             jedis = bd.getJedis();
@@ -235,57 +235,14 @@ public class TweetDaoImpl implements TweetDao {
     }
 
     /**
-     * add tweet with hashtag
-     * @param hashtag hashtag to link to the tweet
-     * @param tweet tweet to link to the hashtag
-     */
-    public void addHashtagTweet(String hashtag, Tweet tweet) {
-        Jedis jedis = null;
-        try {
-            jedis = bd.getJedis();
-            jedis.zadd("hashtag:" + hashtag + "/tweets", Double.parseDouble(tweet.getTimestamp()),tweet.getId());
-        } finally {
-            bd.closeJedis(jedis);
-        }
-    }
-
-    /**
-     * add tweet with receiver by id
-     * @param id user unique id
-     * @param tweet tweet to link to the receiver user
-     */
-    public void addReceiverById(String id, Tweet tweet) {
-        Jedis jedis = null;
-        try {
-            jedis = bd.getJedis();
-            jedis.zadd("user:" + id + "/receive", Double.parseDouble(tweet.getTimestamp()),tweet.getId());
-        } finally {
-            bd.closeJedis(jedis);
-        }
-    }
-
-    /**
-     * add tweet with receiver by pseudo
-     * @param pseudo user pseudo
-     * @param tweet tweet to link to the receiver user
-     */
-    public void addReceiverByPseudo(String pseudo, Tweet tweet) {
-        UserDaoImpl userDao =  new UserDaoImpl();
-        String id = userDao.getUserIdByPseudo(pseudo);
-        addReceiverById(id, tweet);
-    }
-
-    /**
      * get number of tweets of a user
      * @param pseudo user pseudo
      * @return length of tweet list
      */
     public long getNbTweetByPseudo(String pseudo) {
-        long res = -1;
         UserDaoImpl userDao =  new UserDaoImpl();
         String id = userDao.getUserIdByPseudo(pseudo);
-        res = getNbTweetById(id);
-        return res;
+        return getNbTweetById(id);
     }
 
     /**

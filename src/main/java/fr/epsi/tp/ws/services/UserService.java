@@ -12,10 +12,8 @@ public interface UserService {
     public User getUser(String userId);
     public User getUserWithPseudo(String pseudo);
     public void createUser(User user);
-    public List<User> getFollowers(String uid);
-    public List<User> getFollowers(String userId, int start, int end);
-    public List<User> getFollowing(String uid);
-    public List<User> getFollowing(String userId, int start, int end);
+    public List<User> getFollowers(String userId);
+    public List<User> getFollowing(String userId);
     public void addFollowing(String uidFollowing, String uidFollower);
     public long getNbFollowers(String pseudo);
     public long getNbFollowing(String pseudo);
