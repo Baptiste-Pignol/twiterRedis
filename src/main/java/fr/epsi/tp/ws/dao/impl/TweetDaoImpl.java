@@ -3,6 +3,7 @@ package fr.epsi.tp.ws.dao.impl;
 import fr.epsi.tp.ws.bd.Bd;
 import fr.epsi.tp.ws.bean.Tweet;
 import fr.epsi.tp.ws.dao.TweetDao;
+import fr.epsi.tp.ws.dao.UserDao;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.Transaction;
@@ -101,6 +102,45 @@ public class TweetDaoImpl implements TweetDao {
     }
 
     /**
+     * add tweet whith hashtags or receivers
+     * @param userUid user id
+     * @param tweet tweet to create
+     * @param hashtags list of hashtag
+     * @param receivers list of receiver
+     */
+    public void addTweetByUserId(String userUid, Tweet tweet, ArrayList<String> hashtags, ArrayList<String> receivers) {
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            Map<String, String> m = new HashMap<String, String>();
+            m.put("message", tweet.getMessage());
+            m.put("timestamp", tweet.getTimestamp());
+            m.put("senderId", tweet.getSenderId());
+            m.put("senderPseudo", tweet.getSenderPseudo());
+            m.put("id", tweet.getId());
+            Transaction transaction = jedis.multi();
+            transaction.hmset("tweet:" + tweet.getId(), m);
+            transaction.zadd("user:" + userUid + "/tweets", Double.parseDouble(tweet.getTimestamp()), tweet.getId());
+            for (String hashtag : hashtags) {
+                String tag = hashtag.substring(1, hashtag.length());
+                transaction.zadd("hashtag:" + tag + "/tweets", Double.parseDouble(tweet.getTimestamp()), tweet.getId());
+                transaction.sadd("tweet:" + tweet.getId() + "/hashtags", tag);
+            }
+            UserDao userDao = new UserDaoImpl();
+            for (String receiverId : receivers) {
+                String receiver = userDao.getUserIdByPseudo(receiverId.substring(1, receiverId.length()));
+                if (receiver != null && !receiver.equals("")) {
+                    transaction.sadd("tweet:" + tweet.getId() + "/receivers", receiver);
+                    transaction.zadd("user:" + receiver + "/receive", Double.parseDouble(tweet.getTimestamp()),tweet.getId());
+                }
+            }
+            transaction.exec();
+        } finally {
+            bd.closeJedis(jedis);
+        }
+    }
+
+    /**
      * add new tweet by user pseudo
      * @param pseudo pseudo of the user
      * @param tweet tweet to add
@@ -109,6 +149,15 @@ public class TweetDaoImpl implements TweetDao {
         UserDaoImpl userDao =  new UserDaoImpl();
         String id = userDao.getUserIdByPseudo(pseudo);
         addTweetByUserId(id, tweet);
+    }
+
+    /**
+     * get tweets by hashtag
+     * @param hashtag hastag to search
+     * @return list of tweets
+     */
+    public List<Tweet> getTweetsByHashtag(String hashtag) {
+        return getTweetsByHashtag(hashtag, 0, 100);
     }
 
     /**
@@ -256,5 +305,21 @@ public class TweetDaoImpl implements TweetDao {
         return res;
     }
 
-
+    /**
+     * remove tweet
+     * @param userId user id
+     * @param idTweet tweet id
+     */
+    public void removeTweet(String userId, String idTweet) {
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            Transaction transaction = jedis.multi();
+            transaction.del("tweet:" + idTweet);
+            transaction.zrem("user:" + userId + "/tweets", idTweet);
+            transaction.exec();
+        } finally {
+            bd.closeJedis(jedis);
+        }
+    }
 }

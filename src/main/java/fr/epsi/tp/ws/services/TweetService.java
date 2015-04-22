@@ -16,4 +16,6 @@ public interface TweetService {
     public Tweet getTweet(String tweetId);
     public void createTweet(Tweet tweet, String userUid);
     public long getNbTweets(String pseudo);
+    void removeTweet(String  uid, String idTweet);
+    public List<Tweet> getTweetsByHashtag(String hashtag);
 }

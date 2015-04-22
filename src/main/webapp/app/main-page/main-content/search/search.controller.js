@@ -10,9 +10,9 @@
         .module('twitterApp')
         .controller('SearchCtrl', searchCtrl);
 
-    searchCtrl.$inject = ['Users'];
+    searchCtrl.$inject = ['Users', 'Tweets'];
 
-    function searchCtrl(Users) {
+    function searchCtrl(Users, Tweets) {
         var _this =this;
 
         // current type of research
@@ -30,10 +30,33 @@
             }
         ];
 
+        // remove a tweet
+        this.removeTweet = function removeTweet(tweet) {
+            Tweets.currentUserTweets.remove({id: tweet.id},
+                function success() {
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
+
+        // retweet
+        this.retweet = function retweet(tweet) {
+            Tweets.currentUserTweets.save(tweet,
+                function success() {
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
+
         // function which search user by pseudo
         this.searchUser = function searchUser(userPseudo) {
             Users.user.get({pseudo: userPseudo},
                 function success(data) {
+                    _this.resultHashtag = undefined;
                     _this.error = undefined;
                     _this.result = data;
                 },
@@ -45,8 +68,18 @@
         };
 
         // function which search tweet by hashtag
-        this.searchHashtag = function(hashtag) {
-            //todo implement hashtag research and add call to tweet service
+        this.searchHashtag = function searchHashtag(hashtag) {
+            Tweets.hashtag.query({hashtag: hashtag},
+                function success(data) {
+                    _this.result = undefined;
+                    _this.error = undefined;
+                    _this.resultHashtag = data;
+                },
+                function error(err) {
+                    _this.result = undefined;
+                    _this.error = err;
+                }
+            );
         }
 
         this.searchVisitor = {

@@ -23,6 +23,32 @@
             Tweets.currentUserTweets.save(_this.newTweet,
                 function success() {
                     _this.loadWallTweet();
+                    _this.newTweet = {
+                        message: ''
+                    };
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
+
+        this.retweet = function retweet(tweet) {
+            Tweets.currentUserTweets.save(tweet,
+                function success() {
+                    _this.loadWallTweet();
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
+
+        // remove a tweet
+        this.removeTweet = function removeTweet(tweet) {
+            Tweets.currentUserTweets.remove({id: tweet.id},
+                function success() {
+                    _this.loadWallTweet();
                 },
                 function error(err) {
                     console.log(err);

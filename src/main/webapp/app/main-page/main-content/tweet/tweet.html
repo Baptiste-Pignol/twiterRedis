@@ -15,9 +15,9 @@
             <div layout="row">
                 <img class="tweet-face" ng-src="{{tweet.senderImage}}" />
                 <p flex class="tweet-message">{{tweet.message}}</p>
-                <ng-md-icon class="buttonIcon repeat" icon="repeat" size="28"></ng-md-icon>
+                <ng-md-icon ng-click="tweetCtrl.retweet(tweet);" class="buttonIcon repeat" icon="repeat" size="28"></ng-md-icon>
                 <ng-md-icon class="buttonIcon" icon="star_outline" size="30"></ng-md-icon>
-                <ng-md-icon class="buttonIcon" icon="delete" size="28"></ng-md-icon>
+                <ng-md-icon ng-click="tweetCtrl.removeTweet(tweet);" class="buttonIcon" icon="delete" size="28"></ng-md-icon>
             </div>
             <div class="tweet-info" layout="row" layout-align="end end">
                 <p class="link" ui-sref=".({pseudo: tweet.senderPseudo})">{{tweet.senderPseudo}}</p><p> - {{tweet.timestamp | date:'medium'}}</p>

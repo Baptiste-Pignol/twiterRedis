@@ -8,8 +8,11 @@ import fr.epsi.tp.ws.dao.impl.TweetDaoImpl;
 import fr.epsi.tp.ws.dao.impl.UserDaoImpl;
 import fr.epsi.tp.ws.services.TweetService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Baptiste on 17/03/2015.
@@ -70,8 +73,28 @@ public class TweetServiceImpl implements TweetService {
         Calendar calendar = Calendar.getInstance();
         String timestamp = String.valueOf(calendar.getTime().getTime());
         tweet.setTimestamp(timestamp);
+        ArrayList<String> hashtag = findHastag(tweet.getMessage());
+        ArrayList<String> receiver = findReceiver(tweet.getMessage());
         TweetDao tweetDao = new TweetDaoImpl();
-        tweetDao.addTweetByUserId(userUid, tweet);
+        tweetDao.addTweetByUserId(userUid, tweet, hashtag, receiver);
+    }
+
+    private ArrayList<String> findHastag(String message) {
+        ArrayList<String> res = new ArrayList<String>();
+        Pattern tag = Pattern.compile("(?:^|\\s|[\\p{Punct}&&[^/]])(#[\\p{L}0-9-_]+)");
+        Matcher matcher = tag.matcher(message);
+        while(matcher.find())
+            res.add(matcher.group(1));
+        return  res;
+    }
+
+    private ArrayList<String> findReceiver(String message) {
+        ArrayList<String> res = new ArrayList<String>();
+        Pattern tag = Pattern.compile("(?:^|\\s|[\\p{Punct}&&[^/]])(@[\\p{L}0-9-_]+)");
+        Matcher matcher = tag.matcher(message);
+        while(matcher.find())
+            res.add(matcher.group(1));
+        return  res;
     }
 
     /**
@@ -105,4 +128,21 @@ public class TweetServiceImpl implements TweetService {
         TweetDao tweetDao = new TweetDaoImpl();
         return tweetDao.getNbTweetByPseudo(pseudo);
     }
+
+
+    /**
+     * remove tweet
+     * @param idTweet id of tweet
+     * @param idTweet uid id of user
+     */
+    public void removeTweet(String  uid, String idTweet) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        tweetDao.removeTweet(uid, idTweet);
+    }
+
+    public List<Tweet> getTweetsByHashtag(String hashtag) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getTweetsByHashtag(hashtag);
+    }
+
 }

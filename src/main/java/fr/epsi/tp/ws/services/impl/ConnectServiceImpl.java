@@ -17,9 +17,11 @@ public class ConnectServiceImpl implements ConnectService{
     public boolean checkLogin(String pseudo, String password) {
         UserDao userDao = new UserDaoImpl();
         boolean checkOk = false;
-        String dbPassword = userDao.getConnectionInfoByPseudo(pseudo).getPassword();
-        if (dbPassword != null && dbPassword.equals(password)) {
-            checkOk = true;
+        if (userDao.getConnectionInfoByPseudo(pseudo) != null) {
+            String dbPassword = userDao.getConnectionInfoByPseudo(pseudo).getPassword();
+            if (dbPassword != null && dbPassword.equals(password)) {
+                checkOk = true;
+            }
         }
         return checkOk;
     }

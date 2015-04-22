@@ -150,5 +150,50 @@ public class TweetController {
         return list;
     }
 
+    /**
+     * remove a tweet
+     * @param id tweet uid
+     * @param request http request
+     * @param response http response
+     */
+    @RequestMapping(value="/tweets/{tweetId}", method= RequestMethod.DELETE)
+    public @ResponseBody
+    void removeTweet(@PathVariable("tweetId") String id, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getTweet");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        Tweet t = tweetService.getTweet(id);
+        if (uid.equals(t.getSenderId())) {
+            tweetService.removeTweet(uid, id);
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+    }
+
+    /**
+     * get all tweets to show in user wall
+     * @param hashtag tweet hashtag
+     * @param request http request
+     * @param response http response
+     * @return list of tweet
+     */
+    @RequestMapping(value="/hashtag/{hashtag}", method= RequestMethod.GET)
+    public @ResponseBody
+    List<Tweet> getHashtagTweets(@PathVariable("hashtag") String hashtag,HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getWallTweets");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        List<Tweet> list = tweetService.getTweetsByHashtag(hashtag);
+        if (list == null || list.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+        return list;
+    }
+
 
 }

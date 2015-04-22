@@ -14,7 +14,8 @@
             currentUserTweets: $resource('rest/tweets/:id'),
             wallUserTweets: $resource('rest/users/:pseudo/wallTweets'),
             userTweets: $resource('rest/users/:pseudo/tweets'),
-            userTweetSize: $resource('rest/users/:pseudo/tweets/size')
+            userTweetSize: $resource('rest/users/:pseudo/tweets/size'),
+            hashtag: $resource('rest/hashtag/:hashtag')
         };
     }
 })();

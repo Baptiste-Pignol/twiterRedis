@@ -22,9 +22,19 @@
         };
 
         _this.inscription = function inscription() {
-            Users.save(_this.user);
-            // TODO: change by another think...
-            //$state.go("twitter.home");
+            Users.user.save(_this.user,
+                function success() {
+                    _this.user  = {
+                        pseudo: "",
+                        fullName: "",
+                        email: "",
+                        password: ""
+                    };
+                },
+                function error(err) {
+
+                }
+            );
         };
 
         _this.onFocus = function onFocus() {
