@@ -10,6 +10,9 @@
     userTweetFct.$inject = ['$resource'];
 
     function userTweetFct($resource) {
-        return $resource('rest/users/:pseudo/tweets');
+        return {
+            userTweet: $resource('rest/users/:pseudo/tweets'),
+            userTweetSize: $resource('rest/users/:pseudo/tweets/size')
+        }
     }
 })();

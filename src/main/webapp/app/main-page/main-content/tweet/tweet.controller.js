@@ -30,7 +30,7 @@
 
         // load all tweets of the current user
         this.loadTweet = function loadTweet() {
-            UserTweet.query({'pseudo': _this.currentUserPseudo},
+            UserTweet.userTweet.query({'pseudo': _this.currentUserPseudo},
                 function success(dbTweets) {
                     _this.tweets = dbTweets;
                 },

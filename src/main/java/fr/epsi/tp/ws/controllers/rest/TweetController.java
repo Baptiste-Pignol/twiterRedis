@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Baptiste on 17/03/2015.
@@ -65,6 +67,29 @@ public class TweetController {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
         return list;
+    }
+
+    /**
+     * get number of tweets of a user
+     * @param pseudo user pseudo
+     * @param request http request
+     * @param response http response
+     * @return user tweets number
+     */
+    @RequestMapping(value="/users/{pseudo}/tweets/size", method= RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Long> getTweetsSize(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getTweetsSize");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        Map<String, Long> nb = new HashMap<String, Long>();
+        nb.put("nbTweet", tweetService.getNbTweets(pseudo));
+        if (nb.get("nbTweet") == -1) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return nb;
     }
 
     /**

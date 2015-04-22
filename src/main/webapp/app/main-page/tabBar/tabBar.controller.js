@@ -76,7 +76,5 @@
             $state.go(tab.state, {pseudo: $rootScope.currentUserPseudo || $rootScope.connectedUserPseudo});
             _this.selectedIndex = tab.index;
         };
-        //ui-sref='{{tab.state}}({pseudo: "{{tabBar.currentUserPseudo}}"})'
-        //{{tab.state}}({pseudo: '{{tabBar.currentUserPseudo}}'})
     }
 })();

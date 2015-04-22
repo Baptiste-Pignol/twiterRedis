@@ -95,4 +95,14 @@ public class TweetServiceImpl implements TweetService {
         TweetDao tweetDao = new TweetDaoImpl();
         return tweetDao.getWallTweetByPseudo(pseudo, start, end);
     }
+
+    /**
+     * get numbers of tweets
+     * @param pseudo user pseudo
+     * @return size of list of tweets
+     */
+    public long getNbTweets(String pseudo) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        return tweetDao.getNbTweetByPseudo(pseudo);
+    }
 }

@@ -103,4 +103,24 @@ public class UserServiceImpl implements UserService {
         UserDao userDao = new UserDaoImpl();
         userDao.addFollowingById(uidFollowing, uidFollower);
     }
+
+    /**
+     * get numbers of followers
+     * @param pseudo user pseudo
+     * @return size of list of followers
+     */
+    public long getNbFollowers(String pseudo) {
+        UserDao userDao = new UserDaoImpl();
+        return userDao.getNbFollowersByPseudo(pseudo);
+    }
+
+    /**
+     * get numbers of following
+     * @param pseudo user pseudo
+     * @return size of list of following
+     */
+    public long getNbFollowing(String pseudo) {
+        UserDao userDao = new UserDaoImpl();
+        return userDao.getNbFollowingByPseudo(pseudo);
+    }
 }

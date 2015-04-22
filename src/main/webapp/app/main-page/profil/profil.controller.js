@@ -10,11 +10,14 @@
         .module('twitterApp')
         .controller('ProfilCtrl', profilCtrl);
 
-    profilCtrl.$inject = ['$rootScope', 'Users'];
+    profilCtrl.$inject = ['$rootScope', 'Users', 'UserTweet', '$state'];
 
-    function profilCtrl($rootScope, Users) {
+    function profilCtrl($rootScope, Users, UserTweet, $state) {
         var _this =this;
 
+        var pseudo = $state.params.pseudo;
+        if (pseudo)
+            $rootScope.currentUserPseudo = pseudo;
         // temporary value of connectedUser
         this.connectedUser = {
             pseudo: '...',
@@ -27,10 +30,10 @@
             nbrFavoris: 0
         };
 
-
         this.loadProfil = function loadProfil() {
+            var user = $rootScope.currentUserPseudo || $rootScope.connectedUserPseudo;
             // get current user data
-            Users.get({pseudo: $rootScope.currentUserPseudo || $rootScope.connectedUserPseudo},
+            Users.get({pseudo: user},
                 function success(bdUser){
                     _this.connectedUser.pseudo = bdUser.pseudo;
                     _this.connectedUser.fullName = bdUser.fullName;
@@ -40,13 +43,22 @@
                     console.log(err);
                 }
             );
+            UserTweet.userTweetSize.get({pseudo: user},
+                function success(dbNbTweets) {
+                    _this.connectedUser.nbrTweet = dbNbTweets.nbTweet;
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
         };
 
         $rootScope.$on('$stateChangeStart', handleStateChange);
         function handleStateChange(event, toState, toParam, fromState, fromParam) {
-            if (fromParam.pseudo != toParam.pseudo) {
+            if (toParam.pseudo)
+                $rootScope.currentUserPseudo = toParam.pseudo;
+            if (toParam.pseudo != fromParam.pseudo)
                 _this.loadProfil();
-            }
         }
 
         this.loadProfil();

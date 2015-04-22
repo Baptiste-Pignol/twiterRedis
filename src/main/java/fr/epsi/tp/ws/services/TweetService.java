@@ -15,4 +15,5 @@ public interface TweetService {
     public List<Tweet> getWallTweets(String pseudo, int start, int stop);
     public Tweet getTweet(String tweetId);
     public void createTweet(Tweet tweet, String userUid);
+    public long getNbTweets(String pseudo);
 }

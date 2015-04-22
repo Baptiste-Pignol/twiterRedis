@@ -249,7 +249,7 @@ public class TweetDaoImpl implements TweetDao {
         Jedis jedis = null;
         try {
             jedis = bd.getJedis();
-            res = jedis.llen("user:" + id + "/tweets");
+            res = jedis.zcount("user:" + id + "/tweets", "-inf", "+inf");
         } finally {
             bd.closeJedis(jedis);
         }

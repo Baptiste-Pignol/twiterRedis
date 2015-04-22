@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Baptiste on 17/03/2015.
@@ -177,5 +179,51 @@ public class UserController {
         String uidFollowing = userService.getUid(pseudo);
         String uidFollower = (String) request.getSession(true).getAttribute("uid");
         userService.addFollowing(uidFollowing, uidFollower);
+    }
+
+    /**
+     * get number of followers of a user
+     * @param pseudo user pseudo
+     * @param request http request
+     * @param response http response
+     * @return user followers number
+     */
+    @RequestMapping(value="/users/{pseudo}/followers/size", method= RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Long> getFollowersSize(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getFollowersSize");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        Map<String, Long> nb = new HashMap<String, Long>();
+        nb.put("nbFollowers", userService.getNbFollowers(pseudo));
+        if (nb.get("nbFollowers") == -1) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return nb;
+    }
+
+    /**
+     * get number of followers of a user
+     * @param pseudo user pseudo
+     * @param request http request
+     * @param response http response
+     * @return user followers number
+     */
+    @RequestMapping(value="/users/{pseudo}/following/size", method= RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Long> getFollowingSize(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getFollowingSize");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        Map<String, Long> nb = new HashMap<String, Long>();
+        nb.put("nbFollowing", userService.getNbFollowing(pseudo));
+        if (nb.get("nbFollowing") == -1) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return nb;
     }
 }
