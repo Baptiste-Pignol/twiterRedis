@@ -286,6 +286,60 @@ public class UserDaoImpl implements UserDao {
         addFollowingById(followingId, userId);
     }
 
+    /**
+     * get number of followers of user
+     * @param pseudo user pseudo
+     * @return size of follower list of user
+     */
+    public long getNbFollowersByPseudo(String pseudo) {
+        String id = getUserIdByPseudo(pseudo);
+        return getNbFollowersById(id);
+    }
+
+    /**
+     * get number of followers of user
+     * @param id user id
+     * @return size of followers list of user
+     */
+    public long getNbFollowersById(String id) {
+        long res = -1;
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            res = jedis.llen("user:" + id + "/followers");
+        } finally {
+            bd.closeJedis(jedis);
+        }
+        return res;
+    }
+
+    /**
+     * get number of following of user
+     * @param pseudo user pseudo
+     * @return size of following list of user
+     */
+    public long getNbFollowingByPseudo(String pseudo) {
+        String id = getUserIdByPseudo(pseudo);
+        return getNbFollowingById(id);
+    }
+
+    /**
+     * get number of following of user
+     * @param id user id
+     * @return size of following list of user
+     */
+    public long getNbFollowingById(String id) {
+        long res = -1;
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            res = jedis.llen("user:" + id + "/following");
+        } finally {
+            bd.closeJedis(jedis);
+        }
+        return res;
+    }
+
     public void setConnectionInfo(ConnectInfo connectInfo) {
         //todo: setConnectionInfo
     }

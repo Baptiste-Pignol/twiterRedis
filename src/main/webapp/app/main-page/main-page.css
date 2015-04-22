@@ -1,9 +1,9 @@
 body {
-    background-color: #433B4F;
+    background-color: #e9eaed;
 }
 
 .view-background {
-    background-color: #433B4F;
+    background-color: #e9eaed;
 }
 
 .fillWidth {
@@ -15,8 +15,8 @@ body {
 }
 
 .coloredCard {
-    background-color: #3f51b5;
-    color: #BEA472;
+    background-color: lightgrey;
+    color: #000000;
     overflow: hidden;
     margin-top: 10px;
     border-radius: 6px !important;
@@ -24,9 +24,9 @@ body {
 
 .tweetCard {
     /*background-color: #E8993A;*/
-    background-color: #BEA472;
+    background-color: #ffffff;
     /*background-color: #7D3AE8;*/
-    color: #433B4F;
+    color: #000000;
     border-radius: 20px !important;
     width: 100%;
     max-width: 725px;
@@ -74,7 +74,7 @@ body {
 }
 
 .card-title {
-    color: #D6D6D6;
+    color: #000000;
     opacity: 70;
     text-align: center;
     margin-bottom: 0px;
@@ -106,7 +106,7 @@ md-tabs.md-default-theme md-tab.active {
 }
 
 md-tabs.md-default-theme md-tab {
-    color: #BEA472;
+    color: #000000;
 }
 
 md-tabs.md-default-theme .md-paginator md-icon {

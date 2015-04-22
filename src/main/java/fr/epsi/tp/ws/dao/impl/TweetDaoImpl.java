@@ -225,4 +225,36 @@ public class TweetDaoImpl implements TweetDao {
         String id = userDao.getUserIdByPseudo(pseudo);
         addReceiverById(id, tweet);
     }
+
+    /**
+     * get number of tweets of a user
+     * @param pseudo user pseudo
+     * @return length of tweet list
+     */
+    public long getNbTweetByPseudo(String pseudo) {
+        long res = -1;
+        UserDaoImpl userDao =  new UserDaoImpl();
+        String id = userDao.getUserIdByPseudo(pseudo);
+        res = getNbTweetById(id);
+        return res;
+    }
+
+    /**
+     * get number of tweets of a user
+     * @param id user id
+     * @return length of tweet list
+     */
+    public long getNbTweetById(String id) {
+        long res = -1;
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            res = jedis.llen("user:" + id + "/tweets");
+        } finally {
+            bd.closeJedis(jedis);
+        }
+        return res;
+    }
+
+
 }

@@ -17,4 +17,6 @@ public interface TweetDao {
     public void addTweetByUserId(String id, Tweet tweet);
     public void addTweetByUserPseudo(String pseudo, Tweet tweet);
     public void addHashtagTweet(String hashtag, Tweet tweet);
+    public long getNbTweetByPseudo(String pseudo);
+    public long getNbTweetById(String id);
 }

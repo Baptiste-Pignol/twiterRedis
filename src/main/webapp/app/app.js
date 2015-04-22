@@ -11,6 +11,7 @@
             'ui.router',
             'ngResource',
             'ngAnimate',
-            'ngMaterial'
+            'ngMaterial',
+            'ngMdIcons'
         ]);
 })();

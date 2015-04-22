@@ -26,4 +26,8 @@ public interface UserDao {
     public List<String> getFollowingIdById(String userId, int start, int end);
     public List<String> getFollowingIdByPseudo(String pseudo, int start, int end);
     public String getUserIdByPseudo(String pseudo);
+    public long getNbFollowingByPseudo(String pseudo);
+    public long getNbFollowingById(String id);
+    public long getNbFollowersByPseudo(String pseudo);
+    public long getNbFollowersById(String id);
 }
