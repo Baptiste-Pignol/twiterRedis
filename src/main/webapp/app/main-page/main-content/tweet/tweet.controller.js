@@ -10,17 +10,17 @@
         .module('twitterApp')
         .controller('TweetCtrl', tweetCtrl);
 
-    tweetCtrl.$inject = ['$stateParams', 'Tweets', 'UserTweet'];
+    tweetCtrl.$inject = ['$stateParams', 'Tweets'];
 
-    function tweetCtrl($stateParams, Tweets, UserTweet) {
+    function tweetCtrl($stateParams, Tweets) {
         var _this =this;
         this.currentUserPseudo = $stateParams.pseudo;
 
         // send new tweet
         this.sendTweet = function sendTweet() {
-            Tweets.save(_this.newTweet,
+            Tweets.currentUserTweets.save(_this.newTweet,
                 function success() {
-                    this.loadTweet();
+                    _this.loadTweet();
                 },
                 function error(err) {
                     console.log(err);
@@ -30,7 +30,7 @@
 
         // load all tweets of the current user
         this.loadTweet = function loadTweet() {
-            UserTweet.userTweet.query({'pseudo': _this.currentUserPseudo},
+            Tweets.userTweets.query({'pseudo': _this.currentUserPseudo},
                 function success(dbTweets) {
                     _this.tweets = dbTweets;
                 },

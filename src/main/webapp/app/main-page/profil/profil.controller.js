@@ -10,9 +10,9 @@
         .module('twitterApp')
         .controller('ProfilCtrl', profilCtrl);
 
-    profilCtrl.$inject = ['$rootScope', 'Users', 'UserTweet', '$state'];
+    profilCtrl.$inject = ['$rootScope', 'Users', 'Tweets', '$state'];
 
-    function profilCtrl($rootScope, Users, UserTweet, $state) {
+    function profilCtrl($rootScope, Users, Tweets, $state) {
         var _this =this;
 
         var pseudo = $state.params.pseudo;
@@ -33,7 +33,7 @@
         this.loadProfil = function loadProfil() {
             var user = $rootScope.currentUserPseudo || $rootScope.connectedUserPseudo;
             // get current user data
-            Users.get({pseudo: user},
+            Users.user.get({pseudo: user},
                 function success(bdUser){
                     _this.connectedUser.pseudo = bdUser.pseudo;
                     _this.connectedUser.fullName = bdUser.fullName;
@@ -43,9 +43,25 @@
                     console.log(err);
                 }
             );
-            UserTweet.userTweetSize.get({pseudo: user},
+            Tweets.userTweetSize.get({pseudo: user},
                 function success(dbNbTweets) {
                     _this.connectedUser.nbrTweet = dbNbTweets.nbTweet;
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+            Users.nbFollowers.get({pseudo: user},
+                function success(dbNbFollowers) {
+                    _this.connectedUser.nbrFollower = dbNbFollowers.nbFollowers;
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+            Users.nbFollowing.get({pseudo: user},
+                function success(dbNbFollowing) {
+                    _this.connectedUser.nbrFollowing = dbNbFollowing.nbFollowing;
                 },
                 function error(err) {
                     console.log(err);

@@ -10,9 +10,9 @@
         .module('twitterApp')
         .controller('FollowerCtrl', followerCtrl);
 
-    followerCtrl.$inject = ['$stateParams', 'UserFollower'];
+    followerCtrl.$inject = ['$stateParams', 'Users'];
 
-    function followerCtrl($stateParams, UserFollower) {
+    function followerCtrl($stateParams, Users) {
         var _this =this;
 
         // user followers
@@ -23,7 +23,7 @@
 
         // function which load followers users
         this.loadFollower = function loadFollower() {
-            UserFollower.query({'pseudo': _this.currentUserPseudo},
+            Users.follower.query({'pseudo': _this.currentUserPseudo},
                 function success(dbUsers) {
                     _this.users = dbUsers;
                 },

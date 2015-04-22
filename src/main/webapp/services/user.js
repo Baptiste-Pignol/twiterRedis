@@ -10,6 +10,14 @@
     userFct.$inject = ['$resource'];
 
     function userFct($resource) {
-        return $resource('rest/users/:pseudo');
+        return {
+            user: $resource('rest/users/:pseudo'),
+            follower: $resource('rest/users/followers/:pseudo'),
+            nbFollowers: $resource('rest/users/:pseudo/followers/size'),
+            following: $resource('rest/users/following/:pseudo'),
+            nbFollowing: $resource('rest/users/:pseudo/following/size')
+        };
     }
+
+
 })();

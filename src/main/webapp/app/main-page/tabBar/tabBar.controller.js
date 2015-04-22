@@ -19,7 +19,7 @@
 
         this.loadConnectedUserPseudo = function loadConnectedUserPseudo() {
             // get connected user pseudo
-            Users.get({},
+            Users.user.get({},
                 function success(bdUser){
                     $rootScope.connectedUserPseudo = bdUser.pseudo;
                     _this.connectedUserPseudo = bdUser.pseudo;

@@ -10,9 +10,9 @@
         .module('twitterApp')
         .controller('SearchCtrl', searchCtrl);
 
-    searchCtrl.$inject = ['Users', 'UserFollowing'];
+    searchCtrl.$inject = ['Users'];
 
-    function searchCtrl(Users, UserFollowing) {
+    function searchCtrl(Users) {
         var _this =this;
 
         // current type of research
@@ -32,7 +32,7 @@
 
         // function which search user by pseudo
         this.searchUser = function searchUser(userPseudo) {
-            Users.get({pseudo: userPseudo},
+            Users.user.get({pseudo: userPseudo},
                 function success(data) {
                     _this.error = undefined;
                     _this.result = data;
@@ -62,7 +62,7 @@
         };
 
         this.addFollowing = function addFollowing() {
-            UserFollowing.save( _this.result.pseudo,
+            Users.following.save( _this.result.pseudo,
                 function success(data) {
                     console.log("success");
                 },
