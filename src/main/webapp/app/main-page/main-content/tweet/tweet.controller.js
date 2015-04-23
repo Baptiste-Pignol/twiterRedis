@@ -31,6 +31,18 @@
             );
         };
 
+        // favorite
+        this.addFavorite = function addFavorite(tweet) {
+            Tweets.favorite.save(tweet,
+                function success() {
+                    _this.loadTweet();
+                },
+                function error(err) {
+                    console.log(err);
+                }
+            );
+        };
+
         // retweet
         this.retweet = function retweet(tweet) {
             Tweets.currentUserTweets.save(tweet,

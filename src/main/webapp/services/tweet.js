@@ -15,7 +15,8 @@
             wallUserTweets: $resource('rest/users/:pseudo/wallTweets'),
             userTweets: $resource('rest/users/:pseudo/tweets'),
             userTweetSize: $resource('rest/users/:pseudo/tweets/size'),
-            hashtag: $resource('rest/hashtag/:hashtag')
+            hashtag: $resource('rest/hashtag/:hashtag'),
+            favorite: $resource('rest/user/:pseudo/favorite/:tweetId')
         };
     }
 })();

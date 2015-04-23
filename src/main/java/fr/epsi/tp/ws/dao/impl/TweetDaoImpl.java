@@ -157,7 +157,7 @@ public class TweetDaoImpl implements TweetDao {
      * @return list of tweets
      */
     public List<Tweet> getTweetsByHashtag(String hashtag) {
-        return getTweetsByHashtag(hashtag, 0, 100);
+        return getTweetsByHashtag(hashtag, 0, -1);
     }
 
     /**
@@ -278,5 +278,64 @@ public class TweetDaoImpl implements TweetDao {
         } finally {
             bd.closeJedis(jedis);
         }
+    }
+
+    /**
+     * add favorite tweet
+     * @param userId user id
+     * @param tweet tweet
+     */
+    public void addFavorite(String userId, Tweet tweet) {
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            Transaction transaction = jedis.multi();
+            transaction.zadd("user:" + userId + "/favorite", Double.parseDouble(tweet.getTimestamp()), tweet.getId());
+            transaction.sadd("tweet:" + tweet.getId() + "/favorite", userId);
+            transaction.exec();
+        } finally {
+            bd.closeJedis(jedis);
+        }
+    }
+
+    /**
+     * remove favorite tweet
+     * @param userId user id
+     * @param tweet tweet
+     */
+    public void removeFavorite(String userId, Tweet tweet) {
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            Transaction transaction = jedis.multi();
+            transaction.zrem("user:" + userId + "/favorite", tweet.getId());
+            transaction.srem("tweet:" + tweet.getId() + "/favorite", userId);
+            transaction.exec();
+        } finally {
+            bd.closeJedis(jedis);
+        }
+    }
+
+    /**
+     * add favorite tweet
+     * @param userId user id
+     */
+    public List<Tweet> getFavorite(String userId) {
+        List<Tweet> list = new ArrayList<Tweet>();
+        Set<String> idTweets = null;
+        Jedis jedis = null;
+        try {
+            jedis = bd.getJedis();
+            idTweets = jedis.zrange("user:"+userId+"/favorite", 0, -1);
+        } finally {
+            bd.closeJedis(jedis);
+        }
+        if (idTweets != null) {
+            for (String id : idTweets) {
+                Tweet t = getTweetById(id);
+                list.add(t);
+            }
+        }
+        return list;
     }
 }

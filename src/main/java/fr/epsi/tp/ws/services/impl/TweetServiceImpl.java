@@ -140,9 +140,29 @@ public class TweetServiceImpl implements TweetService {
         tweetDao.removeTweet(uid, idTweet);
     }
 
+    /**
+     * get tweets by hashtag
+     * @param hashtag
+     * @return tweets
+     */
     public List<Tweet> getTweetsByHashtag(String hashtag) {
         TweetDao tweetDao = new TweetDaoImpl();
         return tweetDao.getTweetsByHashtag(hashtag);
+    }
+
+    public List<Tweet> getFavorite(String pseudo) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        UserDao userDao = new UserDaoImpl();
+        String userId = userDao.getUserIdByPseudo(pseudo);
+        return tweetDao.getFavorite(userId);
+    }
+    public void addFavorite(String userId, Tweet tweet) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        tweetDao.addFavorite(userId, tweet);
+    }
+    public void removeFavorite(String userId, Tweet tweet) {
+        TweetDao tweetDao = new TweetDaoImpl();
+        tweetDao.removeFavorite(userId, tweet);
     }
 
 }

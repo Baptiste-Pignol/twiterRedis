@@ -18,4 +18,7 @@ public interface TweetService {
     public long getNbTweets(String pseudo);
     void removeTweet(String  uid, String idTweet);
     public List<Tweet> getTweetsByHashtag(String hashtag);
+    public List<Tweet> getFavorite(String userId);
+    public void addFavorite(String userId, Tweet tweet);
+    public void removeFavorite(String userId, Tweet tweet);
 }

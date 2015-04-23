@@ -291,7 +291,7 @@ public class UserDaoImpl implements UserDao {
         Jedis jedis = null;
         try {
             jedis = bd.getJedis();
-            res = jedis.llen("user:" + id + "/follower");
+            res = jedis.scard("user:" + id + "/follower");
         } finally {
             bd.closeJedis(jedis);
         }
@@ -318,7 +318,7 @@ public class UserDaoImpl implements UserDao {
         Jedis jedis = null;
         try {
             jedis = bd.getJedis();
-            res = jedis.llen("user:" + id + "/following");
+            res = jedis.scard("user:" + id + "/following");
         } finally {
             bd.closeJedis(jedis);
         }

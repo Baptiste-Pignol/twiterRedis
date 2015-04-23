@@ -173,7 +173,7 @@ public class TweetController {
     }
 
     /**
-     * get all tweets to show in user wall
+     * get tweets with hashtag
      * @param hashtag tweet hashtag
      * @param request http request
      * @param response http response
@@ -182,7 +182,7 @@ public class TweetController {
     @RequestMapping(value="/hashtag/{hashtag}", method= RequestMethod.GET)
     public @ResponseBody
     List<Tweet> getHashtagTweets(@PathVariable("hashtag") String hashtag,HttpServletRequest request, HttpServletResponse response) {
-        logger.info("getWallTweets");
+        logger.info("getHashtagTweets");
         String uid = (String) request.getSession(true).getAttribute("uid");
         if (uid == null || uid.equals("")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -194,6 +194,63 @@ public class TweetController {
         }
         return list;
     }
+
+    /**
+     * get favorite tweet
+     * @param pseudo user pseudo
+     * @param request http request
+     * @param response http response
+     * @return list of tweet
+     */
+    @RequestMapping(value="/user/{pseudo}/favorite", method= RequestMethod.GET)
+    public @ResponseBody
+    List<Tweet> getFavorite(@PathVariable("pseudo") String pseudo, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getFavorite");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        List<Tweet> list = tweetService.getFavorite(pseudo);
+        if (list == null || list.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+        return list;
+    }
+
+    /**
+     * create tweet favorite
+     * @param request http request
+     * @param response http response
+     */
+    @RequestMapping(value="/user/favorite", method= RequestMethod.POST)
+    public @ResponseBody
+    void addFavorite(@RequestBody Tweet tweet, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getFavorite");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        tweetService.addFavorite(uid, tweet);
+    }
+
+    /**
+     * remove tweet favorite
+     * @param request http request
+     * @param response http response
+     */
+    @RequestMapping(value="/user/favorite/{tweetId}", method= RequestMethod.DELETE)
+    public @ResponseBody
+    void removeFavorite(@PathVariable("tweetId") String id, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("removeFavorite");
+        String uid = (String) request.getSession(true).getAttribute("uid");
+        if (uid == null || uid.equals("")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        Tweet tweet = tweetService.getTweet(id);
+        tweetService.removeFavorite(uid, tweet);
+    }
+
 
 
 }

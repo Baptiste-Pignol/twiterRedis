@@ -22,4 +22,7 @@ public interface TweetDao {
     public long getNbTweetById(String id);
     public void removeTweet(String userId, String idTweet);
     public void addTweetByUserId(String userUid, Tweet tweet, ArrayList<String> hashtags, ArrayList<String> receivers);
+    public List<Tweet> getFavorite(String userId);
+    public void addFavorite(String userId, Tweet tweet);
+    public void removeFavorite(String userId, Tweet tweet);
 }

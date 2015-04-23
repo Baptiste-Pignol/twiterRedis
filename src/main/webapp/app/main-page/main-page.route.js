@@ -25,16 +25,6 @@
                     templateUrl: 'app/main-page/tabBar/tabBar.html',
                     controller: 'TabBarCtrl',
                     controllerAs: 'tabBar'
-                },
-                'suggestion@twitter': {
-                    templateUrl: 'app/main-page/suggestion/suggestion.html',
-                    controller: 'SuggestionCtrl',
-                    controllerAs: 'suggestion'
-                },
-                'trend@twitter': {
-                    templateUrl: 'app/main-page/trend/trend.html',
-                    controller: 'TrendCtrl',
-                    controllerAs: 'trend'
                 }
             }
         }).state('twitter.home', {
