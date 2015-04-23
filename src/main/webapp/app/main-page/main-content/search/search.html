@@ -27,7 +27,7 @@
         <md-card-content>
             <div layout="column" layout-align="start center">
                 <img class="tweet-face" ng-src="{{search.result.image}}" />
-                <h3>{{search.result.pseudo}}</h3>
+                <h3 class="link" ui-sref="twitter.home({pseudo: search.result.pseudo})">{{search.result.pseudo}}</h3>
                 <p>{{search.result.fullName}}</p>
                 <p>{{search.result.email}}</p>
                 <md-button class="md-fab md-primary" aria-label="Follow" ng-click="search.addFollowing();">

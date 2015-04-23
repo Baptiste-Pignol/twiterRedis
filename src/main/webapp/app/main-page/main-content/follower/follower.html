@@ -3,7 +3,7 @@
         <md-card-content>
             <div layout="row">
                 <img class="tweet-face" ng-src="{{user.image}}" />
-                <p class="tweet-message">{{user.pseudo}}</p>
+                <p ui-sref=".({pseudo: user.pseudo})" class="link tweet-message">{{user.pseudo}}</p>
             </div>
         </md-card-content>
     </md-card>
